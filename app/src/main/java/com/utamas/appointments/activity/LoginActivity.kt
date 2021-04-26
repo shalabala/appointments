@@ -1,49 +1,97 @@
 package com.utamas.appointments.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.utamas.appointments.R
 import com.utamas.appointments.architecture.abstractions.BaseActivity
+import com.utamas.appointments.architecture.abstractions.UserService
 import com.utamas.appointments.architecture.annotations.DeclareViewModel
 import com.utamas.appointments.architecture.annotations.DeclareXmlLayout
+import com.utamas.appointments.services.FirebaseUserService
+import com.utamas.appointments.validateEmailField
 import com.utamas.appointments.viewmodel.LoginViewModel
+import javax.inject.Inject
 
 @DeclareXmlLayout(R.layout.activity_login)
 @DeclareViewModel(LoginViewModel::class)
 class LoginActivity : BaseActivity<LoginViewModel>() {
+    private val REGISTER_REQUEST=1;
+    private val GOOGLE_REQUEST=10;
+    private val TAG=this::class.qualifiedName
+    private lateinit var userName: EditText
+    private lateinit var password: EditText
 
+    @Inject
+    lateinit var userService: UserService
+
+    override fun onStart() {
+        super.onStart()
+        checkUser()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        appointmentApplication.appComponent.inject(this)
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }*/
+        userName = findViewById<EditText>(R.id.editTextUserName)
+        password = findViewById<EditText>(R.id.editTextPassword)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+    fun checkUser() :Unit{
+        if(userService.currentUser!=null){
+            navigateToListAppointmentActivity()
         }
     }
-    fun buttonClicked(v: View):Unit{
-        println(viewModel.userService)
+
+
+    fun login(v: View):Unit{
+        viewModel.login(onLogin(getString(R.string.unsuccessful_login)))
+    }
+    fun navigateToRegister(v: View): Unit{
+        val intent= Intent(this, RegisterActivity::class.java)
+        startActivityForResultIfIntentReceivable(intent, REGISTER_REQUEST)
+    }
+    fun loginWithGoogle(v: View): Unit{
+        startActivityForResultIfIntentReceivable(userService.googleSignInIntent,GOOGLE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==REGISTER_REQUEST){
+            when(resultCode){
+                Activity.RESULT_OK-> Toast.makeText(this, getString(R.string.successful_registration),Toast.LENGTH_LONG).show()
+                Activity.RESULT_FIRST_USER-> Toast.makeText(this, getString(R.string.unsuccessful_registration),Toast.LENGTH_LONG).show()
+            }
+        }
+        if(requestCode==GOOGLE_REQUEST){
+            userService.handleGoogleSignInResult(data,
+                onLogin(getString(R.string.unsuccessful_google_login)),
+                {Log.d(TAG,"google login error: ",it)})
+        }
+    }
+    private fun onLogin(errorMessage: String): (Task<AuthResult>) -> Unit {
+        return{
+        if(it.isSuccessful){
+            navigateToListAppointmentActivity()
+        }else{
+            Log.d(TAG, "login error: ",it.exception)
+            Toast.makeText(this, errorMessage,Toast.LENGTH_LONG).show()
+        }
+    }}
+    private fun navigateToListAppointmentActivity(){
+        val intent=Intent(this, ListAppointmentsActivity::class.java)
+        startActivity(intent)
     }
 }

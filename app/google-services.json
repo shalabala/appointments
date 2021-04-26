@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "259239252898",
+    "project_id": "appointments-b137c",
+    "storage_bucket": "appointments-b137c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259239252898:android:5453dff97216da827b18fb",
+        "android_client_info": {
+          "package_name": "com.utamas.appointments"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259239252898-ohuemkaghsuo9kidegl90arg9kv58k8g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2VZlPWY7ssVDXEdVkFW9f2tKbhRC_FvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259239252898-ohuemkaghsuo9kidegl90arg9kv58k8g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

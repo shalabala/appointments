@@ -17,7 +17,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildFeatures{
+    buildFeatures {
         dataBinding true
     }
     buildTypes {
@@ -34,9 +34,11 @@ android {
         jvmTarget = '1.8'
     }
 }
-def dagger_version=2.34
+def dagger_version = 2.34
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -55,5 +57,18 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    //firestore
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:27.1.0')
+
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    // Declare the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
 
 }

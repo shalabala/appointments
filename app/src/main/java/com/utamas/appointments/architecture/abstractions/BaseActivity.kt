@@ -9,6 +9,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.utamas.appointments.AppointmentApplication
 import com.utamas.appointments.architecture.annotations.DeclareViewModel
 import com.utamas.appointments.architecture.annotations.DeclareXmlLayout
 import com.utamas.appointments.architecture.exception.NotAnnotatedException
@@ -25,15 +26,21 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
 
     //endregion
     //region members
+
     protected lateinit var viewModel: T
+    private set
+
+    protected lateinit var appointmentApplication: AppointmentApplication
+    private set
+
     private lateinit var mainThreadHandler: Handler
     private var layout: Int = 0
-
 
     //endregion
     //region methods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appointmentApplication=application as AppointmentApplication
         mainThreadHandler = Handler(applicationContext.mainLooper)
         setLayoutAndViewModel()
     }

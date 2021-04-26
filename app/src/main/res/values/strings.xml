@@ -9,4 +9,23 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="user_name">User name:</string>
+    <string name="type_username_here">Type username here</string>
+    <string name="password">Password</string>
+    <string name="type_password_here">Type password here</string>
+    <string name="register">Register</string>
+    <string name="log_in">Log in</string>
+    <string name="log_in_with_google_account">Log in with google account</string>
+    <string name="password_again">Password again:</string>
+    <string name="type_password_here_again">Type password here again</string>
+    <string name="cancel">Cancel</string>
+    <string name="fieldsInvalid">Some of the fields are invalid!</string>
+    <string name="successful_registration">Successful registration!</string>
+    <string name="unsuccessful_registration">Failed registration!</string>
+    <string name="reqired">This field cannot be empty</string>
+    <string name="password_min_length">Password needs to be at least 6 characters!</string>
+    <string name="passwords_dont_equal">The two passwords have to be the same!</string>
+    <string name="must_be_valid_email">Must be a valid email address!</string>
+    <string name="unsuccessful_login">Incorrect user name or password</string>
+    <string name="unsuccessful_google_login">Unsuccessfull google login</string>
 </resources>

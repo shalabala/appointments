@@ -1,19 +1,35 @@
 package com.utamas.appointments.dependencies
 
-import com.utamas.appointments.architecture.abstractions.AppointmentService
-import com.utamas.appointments.architecture.abstractions.UserService
-import com.utamas.appointments.services.FirebaseAppointmentService
-import com.utamas.appointments.services.FirebaseUserService
-import dagger.Binds
+import android.app.Application
+import android.provider.Settings
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.utamas.appointments.R
 import dagger.Module
+import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-abstract class FirebaseModule{
+class FirebaseModule{
+    private val webClientId="259239252898-ohuemkaghsuo9kidegl90arg9kv58k8g.apps.googleusercontent.com"
+
+    @Provides
     @Singleton
-    @Binds
-    abstract fun firebaseAppointmentService(appointmentService: FirebaseAppointmentService):AppointmentService
+    fun provideFirebaseAuth(): FirebaseAuth= Firebase.auth
+    @Provides
     @Singleton
-    @Binds
-    abstract fun firebaseUserService(userServicer:FirebaseUserService):UserService
+    fun provideGoogleAuth(app: Application): GoogleSignInClient {
+        // Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(webClientId)
+            .requestEmail()
+            .build()
+
+        return GoogleSignIn.getClient(app, gso)
+
+    }
 }

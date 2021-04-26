@@ -6,10 +6,14 @@ import android.content.res.Resources
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleObserver
 import com.utamas.appointments.AppointmentApplication
+import javax.inject.Inject
 
 
 abstract class BaseViewModel(application: Application) : AndroidViewModel(application),
     LifecycleObserver {
+
+    @Inject
+    lateinit var userService: UserService
 
     protected var appointmentApplication: AppointmentApplication
     protected val appContext: Context
@@ -20,6 +24,6 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     init {
         this.appointmentApplication = application as AppointmentApplication
-        //this.application.appComponent.inject(this)
+        this.appointmentApplication.appComponent.inject(this)
     }
 }

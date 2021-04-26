@@ -9,7 +9,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [FirebaseModule::class])
+@Component(modules = [ServicesModule::class, FirebaseModule::class])
 interface AppComponent{
     fun inject(activity: LoginActivity)
     fun inject(viewModel: LoginViewModel)
