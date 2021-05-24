@@ -1,6 +1,8 @@
 package com.utamas.appointments.model
 
 import java.time.LocalDateTime
+import java.util.*
+
 
 data class Appointment(
     val id: String,

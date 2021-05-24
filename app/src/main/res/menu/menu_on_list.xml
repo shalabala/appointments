@@ -4,7 +4,11 @@
     tools:context="com.utamas.appointments.activity.LogInActivity">
     <item
         android:id="@+id/action_search"
-        android:orderInCategory="100"
         android:title="@string/search"
+        app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/logout"
+        android:title="@string/log_out"
+        app:showAsAction="never" />
 </menu>

@@ -1,2 +1,54 @@
-bejelentkezes utan ne lehessen vissza gombbal egybol kilepni
-szebb legyen a register
+TRAIL to success:
+
+Edit:
+    -Date, Time (PIPA)
+    -Image adding
+    -Chippek jól működjenek
+    -VM bekötés
+    -Toolbar menü (back és save)
+
+Firebase:
+    -Firebase service bekötése
+
+Details:
+    -Details oldal létrehozása
+    -Azon Vm bekötés
+
+List:
+    -Context menü létrehozása
+    -Törlés megvalósítása
+
+Egyéb:
+    -Reszponzivitás (Dőlt képernyő)
+    -Értesítések
+    -Lifecycle hookok
+
+Deploy:
+    -APK létrehozás pdf átnézése
+    -APK létrehozás
+    -átnézézés
+    -Beadás
+
+Határidő: Szerda 12:00
+
+
+
+logout gomb latszodjon
+view activity
+new activity 
+edit lehetőségek  megvalósítása
+recycle view animator
+recycle view action mode több törlésére
+
+
+activity ikonok
+
+aprosagok
+lehessen google calendarba hozzadni, onnan ki is torlodjon
+room persistance anonym bejelentkezesnel
+kép persistance localstorage ban
+kép megszerzése kamerától
+
+
+HIBA
+billentyuzet ne tomoritse ossze a layoutot

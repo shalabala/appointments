@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -39,7 +40,6 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
 
     override fun onStart() {
         super.onStart()
-        checkUser()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +78,8 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         if(requestCode==GOOGLE_REQUEST){
             userService.handleGoogleSignInResult(data,
                 onLogin(getString(R.string.unsuccessful_google_login)),
-                {Log.d(TAG,"google login error: ",it)})
+                {Log.d(TAG,"google login error: ",it)
+                Toast.makeText(this,getString(R.string.checkConnection),Toast.LENGTH_LONG).show()})
         }
     }
     private fun onLogin(errorMessage: String): (Task<AuthResult>) -> Unit {
