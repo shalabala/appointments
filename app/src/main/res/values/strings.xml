@@ -62,4 +62,8 @@
     <string name="image_fetch_failed">Image fetching operation failed!</string>
     <string name="click_here_to_choose_image">Click here to choose an image!</string>
     <string name="new_note">New note</string>
+    <string name="navigate_back">Navigate back</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="new_appointment">New</string>
 </resources>

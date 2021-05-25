@@ -3,8 +3,8 @@ TRAIL to success:
 Edit:
     -Date, Time (PIPA)
     -Image adding (PIPA)
-    -Chippek jól működjenek
-    -VM bekötés
+    -Chippek jól működjenek (PIPA)
+    -VM bekötés (PIPA)
     -Toolbar menü (back és save)
 
 Firebase:
@@ -17,7 +17,7 @@ Details:
 List:
     -Context menü létrehozása
     -Törlés megvalósítása
-    -edit megvalósítása
+    -edit megvalósítása (Chippekre kulonosen figyelni)
 
 Egyéb:
     -Reszponzivitás (Dőlt képernyő)
@@ -36,7 +36,7 @@ Határidő: Szerda 12:00
 HIBÁK, JAVÍTÁSOK
 
 editen date-t is VM ből bindinggal szerezze
-
+person és note dialog validációja
 logout gomb latszodjon
 view activity
 new activity 
@@ -54,5 +54,3 @@ kép persistance localstorage ban
 kép megszerzése kamerától
 
 
-HIBA
-billentyuzet ne tomoritse ossze a layoutot

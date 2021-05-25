@@ -23,6 +23,18 @@ class ImageUtilsImpl @Inject constructor() : ImageUtils {
         }
     }
 
+    override fun imageToBase64(bitmap: Bitmap): Single<String> {
+        TODO("Not yet implemented")
+    }
+
+    override fun base64ToImage(string: String): Single<Bitmap> {
+        TODO("Not yet implemented")
+    }
+
+    override fun addBorder(bmp: Bitmap, borderSize: Int, color: Int): Single<Bitmap> {
+        return Single.fromCallable{addBorderSync(bmp,borderSize,color)}
+    }
+
     //endregion
     //sync methods
     private fun ensureNotTooBig(bitmap: Bitmap, maxwidth: Int, maxheight: Int): Bitmap {
@@ -59,7 +71,8 @@ class ImageUtilsImpl @Inject constructor() : ImageUtils {
         return rotatedImg
     }
 
-    private fun addBorder(bmp: Bitmap, borderSize: Int, color: Int): Bitmap {
+
+    private fun addBorderSync(bmp: Bitmap, borderSize: Int, color: Int): Bitmap {
         val bmpWithBorder = Bitmap.createBitmap(
             bmp.width + borderSize * 2,
             bmp.height + borderSize * 2,

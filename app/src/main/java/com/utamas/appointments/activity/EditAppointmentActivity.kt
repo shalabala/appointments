@@ -2,18 +2,15 @@ package com.utamas.appointments.activity
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.InputType
-import android.text.SpannableStringBuilder
 import android.view.View
-import android.widget.EditText
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -41,8 +38,6 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.*
 import javax.inject.Inject
 
@@ -51,6 +46,7 @@ import javax.inject.Inject
 @DeclareViewModel(EditAppointmentViewModel::class)
 class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
 
+    private val edit=false
     private val CAMERA_REQUEST_CODE = 3
     private val GALLERY_REQUEST_CODE = 5
     private val STORAGE_REQUEST_CODE = 2
@@ -77,6 +73,7 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
     //region inherited
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setUpToolbar(findViewById(R.id.toolbar2))
         appointmentApplication.appComponent.inject(this)
         personChipGroup = findViewById(R.id.chipGroupPerson)
         notesChipGroup = findViewById(R.id.chipGroupNotes)
@@ -119,31 +116,51 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
     }
     //endregion
 
+    //region toolbaar
+    fun setUpToolbar(t: Toolbar) {
+
+        t.inflateMenu(R.menu.menu_on_edit)
+        t.menu.findItem(R.id.save).setOnMenuItemClickListener { save() }
+        t.setTitle(if( edit)resources.getString(R.string.edit) else resources.getString(R.string.new_appointment))
+        t.setNavigationIcon(R.drawable.outline_arrow_back_24)
+        t.setNavigationOnClickListener{finish()}
+    }
+
+    private fun save(): Boolean {
+        return true
+
+    }
+
+    //endregion
+
     //region data binding
     private fun performManualBindings() {
-        viewModel.people.addOnListChangedCallback(
-            CustomListObserver(
-                viewModel.people,
-                personChipGroup,
-                { it.first })
-        )
-        viewModel.notes.addOnListChangedCallback(
-            CustomListObserver(
-                viewModel.notes,
-                notesChipGroup
+        viewModel.apply {
+            people.addOnListChangedCallback(
+                CustomListObserver(
+                    viewModel.people,
+                    personChipGroup,
+                    { it.first })
             )
-        )
+            notes.addOnListChangedCallback(
+                CustomListObserver(
+                    viewModel.notes,
+                    notesChipGroup
+                )
+            )
+        }
         dateTextField.setOnFocusChangeListener { v, hasFocus ->
-            if(hasFocus){
+            if (hasFocus) {
                 openDatePicker()
             }
         }
         timeTextField.setOnFocusChangeListener { v, hasFocus ->
-            if(hasFocus){
+            if (hasFocus) {
                 openTimePicker()
             }
         }
     }
+
 
     inner class CustomListObserver<T>(
         private val observableData: ObservableArrayList<T>,
@@ -188,7 +205,7 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
         ) {
             if (sender == null) return
             for (i in positionStart until positionStart + itemCount) {
-                val data=sender[i]
+                val data = sender[i]
                 val chip = createChip(converter(data))
 
                 chip.setOnCloseIconClickListener {
@@ -219,9 +236,8 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
     }
 
     fun addNote(v: View) {
-        NoteDialog(viewModel.notes).show(supportFragmentManager,"noteTag")
+        NoteDialog(viewModel.notes).show(supportFragmentManager, "noteTag")
     }
-
 
 
     private fun createChip(str: String): Chip {
@@ -230,7 +246,7 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
         chip.isCloseIconVisible = true
         return chip
     }
-    //endregion
+//endregion
 
     //region image selection
     fun getImage(v: View? = null) {
@@ -305,17 +321,17 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
     }
 
     private fun handleGalleryRequestResponse(data: Intent?) {
-        if(data==null) return
-        val image =  getGalleryPath(data).map { File(it) }
-        if(image.isPresent){
+        if (data == null) return
+        val image = getGalleryPath(data).map { File(it) }
+        if (image.isPresent) {
             setImage(image.get())
         }
     }
 
-    private fun setImage(imageFile: File){
+    private fun setImage(imageFile: File) {
         imageUtils.processIntentImage(imageFile).subscribeOn(Schedulers.computation())
             .subscribe(
-                { runOnMainThread { imageTextView.background= BitmapDrawable(resources,it) } },
+                { runOnMainThread { viewModel.bitmap = it } },
                 {
                     runOnMainThread {
                         Toast.makeText(
@@ -360,12 +376,12 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
 //endregion
 
     //region date time
-    fun openDatePicker(v :View?=null) {
+    fun openDatePicker(v: View? = null) {
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(resources.getString(R.string.pick_a_date))
                 .setSelection(
-                    viewModel.validFor.get()!!.atZone(ZoneId.systemDefault()).toInstant()
+                    viewModel.validFor.atZone(ZoneId.systemDefault()).toInstant()
                         .toEpochMilli()
                 )
                 .setCalendarConstraints(
@@ -376,34 +392,24 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
 
         datePicker.addOnPositiveButtonClickListener {
             val date = Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate()
-            val time = viewModel.validFor.get()!!.toLocalTime()
-            viewModel.validFor.set(LocalDateTime.of(date, time))
-            dateTextField.text =
-                SpannableStringBuilder(
-                    DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).format(date)
-                )
-
+            val time = viewModel.validFor.toLocalTime()
+            viewModel.validFor = LocalDateTime.of(date, time)
         }
         datePicker.show(supportFragmentManager, "dateTag")
     }
 
-    fun openTimePicker(v: View?=null) {
+    fun openTimePicker(v: View? = null) {
         val timePicker =
             MaterialTimePicker.Builder()
                 .setTitleText(resources.getString(R.string.pick_a_time))
-                .setHour(viewModel.validFor.get()!!.hour)
-                .setMinute(viewModel.validFor.get()!!.minute)
+                .setHour(viewModel.validFor.hour)
+                .setMinute(viewModel.validFor.minute)
                 .build()
 
         timePicker.addOnPositiveButtonClickListener {
-            val date = viewModel.validFor.get()!!.toLocalDate()
+            val date = viewModel.validFor.toLocalDate()
             val time = LocalTime.of(timePicker.hour, timePicker.minute)
-            viewModel.validFor.set(LocalDateTime.of(date, time))
-            timeTextField.text =
-                SpannableStringBuilder(
-                    DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).format(time)
-                )
-
+            viewModel.validFor = LocalDateTime.of(date, time)
         }
         timePicker.show(supportFragmentManager, "timeTag")
     }

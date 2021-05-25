@@ -7,6 +7,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.utamas.appointments.R
 import dagger.Module
@@ -20,6 +22,11 @@ class FirebaseModule{
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth= Firebase.auth
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestore(): FirebaseFirestore =Firebase.firestore
+
     @Provides
     @Singleton
     fun provideGoogleAuth(app: Application): GoogleSignInClient {

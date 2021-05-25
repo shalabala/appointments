@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.utamas.appointments.R
 import com.utamas.appointments.activity.adapter.AppointmentListItemAdapter
 import com.utamas.appointments.architecture.abstractions.BaseActivity
-import com.utamas.appointments.architecture.abstractions.ImageService
+import com.utamas.appointments.architecture.abstractions.ImageUtils
 import com.utamas.appointments.architecture.abstractions.UserService
 import com.utamas.appointments.architecture.annotations.DeclareViewModel
 import com.utamas.appointments.architecture.annotations.DeclareXmlLayout
@@ -29,70 +29,17 @@ class ListAppointmentsActivity : BaseActivity<ListAppointmentsViewModel>(),
     SearchView.OnQueryTextListener {
 
     @Inject
-    lateinit var imageService: ImageService
+    lateinit var imageUtils: ImageUtils
 
     @Inject
     lateinit var userService: UserService
 
+
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AppointmentListItemAdapter
 
-    private val appointments = listOf(
-        Appointment(
-            id = "0",
-            href = "",
-            category = "",
-            creationDate = LocalDateTime.now(),
-            description = "First appointment",
-            externalId = "",
-            lastUpdate = LocalDateTime.now(),
-            status = AppointmentStatus.INITIALIZED,
-            validFor = LocalDateTime.of(2021, 5, 24, 18, 50),
-            attachments = emptyList(),
-            calendarEventRef = "",
-            notes = emptyList(),
-            relatedEntities = emptyList(),
-            relatedPlace = "hely",
-            relatedParties = emptyList(),
-            contactMedia = emptyList()
-        ),
-        Appointment(
-            id = "0",
-            href = "",
-            category = "",
-            creationDate = LocalDateTime.now(),
-            description = "Secound appointment",
-            externalId = "",
-            lastUpdate = LocalDateTime.now(),
-            status = AppointmentStatus.INITIALIZED,
-            validFor = LocalDateTime.of(2021, 5, 26, 18, 50),
-            attachments = emptyList(),
-            calendarEventRef = "",
-            notes = emptyList(),
-            relatedEntities = emptyList(),
-            relatedPlace = "hely",
-            relatedParties = emptyList(),
-            contactMedia = emptyList()
-        ),
-        Appointment(
-            id = "0",
-            href = "",
-            category = "",
-            creationDate = LocalDateTime.now(),
-            description = "Third appointment",
-            externalId = "",
-            lastUpdate = LocalDateTime.now(),
-            status = AppointmentStatus.INITIALIZED,
-            validFor = LocalDateTime.of(2021, 4, 24, 18, 50),
-            attachments = emptyList(),
-            calendarEventRef = "",
-            notes = emptyList(),
-            relatedEntities = emptyList(),
-            relatedPlace = "hely",
-            relatedParties = emptyList(),
-            contactMedia = emptyList()
-        )
-    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +48,7 @@ class ListAppointmentsActivity : BaseActivity<ListAppointmentsViewModel>(),
         setUpToolbar(toolbar)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = AppointmentListItemAdapter(imageService)
+        adapter = AppointmentListItemAdapter(imageUtils)
         recyclerView.adapter=adapter
         adapter.addAll(appointments)
 

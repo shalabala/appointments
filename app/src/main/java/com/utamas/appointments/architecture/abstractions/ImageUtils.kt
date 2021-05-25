@@ -6,4 +6,7 @@ import java.io.File
 
 interface ImageUtils{
     fun processIntentImage(imageFile: File): Single<Bitmap>
+    fun imageToBase64(bitmap: Bitmap): Single<String>
+    fun base64ToImage(string: String): Single<Bitmap>
+    fun addBorder(bmp: Bitmap, borderSize: Int, color: Int): Single<Bitmap>
 }

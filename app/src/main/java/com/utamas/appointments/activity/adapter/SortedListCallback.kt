@@ -4,8 +4,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import com.utamas.appointments.model.Appointment
 
-class SortedListCallback(private val mAdapter: RecyclerView.Adapter<*>) : SortedList.Callback<Appointment>(){
-    override fun areItemsTheSame(item1: Appointment?, item2: Appointment?): Boolean =item1===item2
+class SortedListCallback<T>(private val mAdapter: RecyclerView.Adapter<*>) : SortedList.Callback<T>(){
+    override fun areItemsTheSame(item1: T?, item2: T?): Boolean =item1===item2
 
     override fun onMoved(fromPosition: Int, toPosition: Int) {
         mAdapter.notifyItemMoved(fromPosition, toPosition);    }
@@ -19,7 +19,7 @@ class SortedListCallback(private val mAdapter: RecyclerView.Adapter<*>) : Sorted
     override fun onRemoved(position: Int, count: Int) {
         mAdapter.notifyItemRangeRemoved(position, count);    }
 
-    override fun compare(o1: Appointment?, o2: Appointment?): Int {
+    override fun compare(o1: T?, o2: T?): Int {
         if (o1==null||o2==null){
             val o1Comp=if (o1!=null) -1 else 0
             val o2Comp=if (o2!=null) -1 else 0
@@ -28,7 +28,7 @@ class SortedListCallback(private val mAdapter: RecyclerView.Adapter<*>) : Sorted
         return o1.validFor.compareTo(o2.validFor)
     }
 
-    override fun areContentsTheSame(oldItem: Appointment?, newItem: Appointment?): Boolean = oldItem==newItem
+    override fun areContentsTheSame(oldItem: T?, newItem: T?): Boolean = oldItem==newItem
 
 
 }

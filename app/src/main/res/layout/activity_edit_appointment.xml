@@ -23,8 +23,7 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:title="New" />
-
+/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -47,7 +46,7 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:background="@drawable/baseline_image_24"
+                    android:background="@{VM.image ?? @drawable/baseline_image_24}"
                     android:fontFamily="sans-serif-light"
                     android:gravity="bottom|center"
                     android:onClick="getImage"
@@ -77,6 +76,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@={VM.description}"
                         android:maxLines="1" />
 
 
@@ -99,6 +99,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@={VM.category}"
                         android:maxLines="1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -119,6 +120,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@={VM.place}"
+
                         android:maxLines="1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -140,6 +143,7 @@
                         android:id="@+id/dateTextInputEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@{VM.validForDate}"
 
                         android:maxLines="1" />
 
@@ -162,6 +166,7 @@
                         android:id="@+id/timeTextInputEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@={VM.validForTime}"
                         android:maxLines="1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -217,282 +222,6 @@
                         app:chipIcon="@drawable/outline_add_black_18" />
 
                 </com.google.android.material.chip.ChipGroup>
-
-
-                <!--<TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Category"
-                    app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName2"
-                    app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName2"
-                    app:layout_constraintStart_toStartOf="@+id/guideline15"
-                    app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName2" />
-
-                <EditText
-                    android:id="@+id/editTextTextPersonName2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="@={VM.category}"
-                    app:layout_constraintStart_toStartOf="@+id/guideline13"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
-
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Place"
-                    app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName3"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline13"
-                    app:layout_constraintStart_toStartOf="@+id/guideline15"
-                    app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName3" />
-
-                <EditText
-                    android:id="@+id/editTextTextPersonName3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="@={VM.place}"
-                    app:layout_constraintStart_toStartOf="@+id/guideline13"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
-
-                <ScrollView
-                    android:id="@+id/horizontalScrollView"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/chips_grout"
-                    android:layout_margin="@dimen/margin_medium"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline16"
-                    app:layout_constraintStart_toStartOf="@+id/guideline14"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13">
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chipGroupPerson"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small">
-
-                        <com.google.android.material.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="addPerson"
-                            android:text="@string/add"
-                            app:chipIcon="@drawable/outline_add_black_18" />
-
-                    </com.google.android.material.chip.ChipGroup>
-                </ScrollView>
-
-                <ScrollView
-                    android:id="@+id/horizontalScrollView2"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/chips_grout"
-                    android:layout_margin="@dimen/margin_medium"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline16"
-                    app:layout_constraintHorizontal_bias="0.333"
-                    app:layout_constraintStart_toStartOf="@+id/guideline14"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14">
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chipGroupNotes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        app:layout_constraintStart_toStartOf="@+id/guideline13"
-                        app:layout_constraintTop_toBottomOf="@+id/editTextNewNote">
-
-                        <com.google.android.material.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="addNote"
-                            android:text="@string/add"
-                            app:chipIcon="@drawable/outline_add_black_18" />
-                    </com.google.android.material.chip.ChipGroup>
-                </ScrollView>
-
-                <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:text="Notes"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline13"
-                    app:layout_constraintHorizontal_bias="0.49"
-                    app:layout_constraintStart_toStartOf="@+id/guideline15"
-                    app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".02" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".1" />
-
-
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView8"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline15"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="@+id/guideline14"
-                    app:layout_constraintTop_toTopOf="@+id/textView8"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/baseline_category_24" />
-
-                <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView12"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline15"
-                    app:layout_constraintStart_toStartOf="@+id/guideline14"
-                    app:layout_constraintTop_toTopOf="@+id/textView12"
-                    app:srcCompat="@drawable/baseline_place_24" />
-
-                <ImageView
-                    android:id="@+id/imageView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline15"
-                    app:layout_constraintStart_toStartOf="@+id/guideline14"
-                    app:layout_constraintTop_toTopOf="@+id/textView14"
-                    app:srcCompat="@drawable/baseline_notes_24" />
-
-
-
-                <Button
-                    android:id="@+id/button6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cancel"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline18"
-                    app:layout_constraintStart_toStartOf="@+id/guideline14"
-                    app:layout_constraintTop_toTopOf="@+id/guideline17" />
-
-                <Button
-                    android:id="@+id/button7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Save"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline16"
-                    app:layout_constraintStart_toStartOf="@+id/guideline18"
-                    app:layout_constraintTop_toTopOf="@+id/guideline17" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".5" />
-
-                <ImageView
-                    android:id="@+id/imageView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline12"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline16"
-                    app:layout_constraintStart_toStartOf="@+id/guideline15"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/baseline_image_black_48" />
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:text="People"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline13"
-                    app:layout_constraintStart_toStartOf="@+id/guideline15"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
-
-                <ImageView
-                    android:id="@+id/imageView11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline15"
-                    app:layout_constraintStart_toStartOf="@+id/guideline14"
-                    app:layout_constraintTop_toTopOf="@+id/textView13"
-                    app:srcCompat="@drawable/baseline_group_24" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/floatingActionButton4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:clickable="true"
-                    app:backgroundTint="@color/light_gray"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline18"
-                    app:layout_constraintStart_toStartOf="@+id/guideline15"
-                    app:layout_constraintTop_toBottomOf="@+id/textView10"
-                    app:srcCompat="@drawable/baseline_event_18" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/floatingActionButton5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
-                    android:clickable="true"
-                    app:backgroundTint="@color/light_gray"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline18"
-                    app:layout_constraintStart_toStartOf="@+id/guideline15"
-                    app:layout_constraintTop_toBottomOf="@+id/floatingActionButton4"
-                    app:srcCompat="@drawable/baseline_schedule_black_18" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/floatingActionButton6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
-                    android:clickable="true"
-                    app:backgroundTint="@color/light_gray"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline16"
-                    app:layout_constraintStart_toStartOf="@+id/guideline18"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9"
-                    app:srcCompat="@drawable/baseline_photo_camera_black_24" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/floatingActionButton7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
-                    android:clickable="true"
-                    app:backgroundTint="@color/light_gray"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline16"
-                    app:layout_constraintStart_toStartOf="@+id/guideline18"
-                    app:layout_constraintTop_toBottomOf="@+id/floatingActionButton6"
-                    app:srcCompat="@drawable/baseline_camera_roll_black_20" />
-
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
-                    android:text="Add image\nfrom camera or gallery"
-                    app:layout_constraintStart_toStartOf="@+id/guideline18"
-                    app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2" />
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:text="Input event's\ndate and time"
-                    app:layout_constraintStart_toStartOf="@+id/guideline15"
-                    app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2" />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

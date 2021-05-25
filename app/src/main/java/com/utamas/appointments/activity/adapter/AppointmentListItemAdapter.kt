@@ -1,52 +1,47 @@
 package com.utamas.appointments.activity.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
-import com.utamas.appointments.R
-import com.utamas.appointments.architecture.abstractions.ImageService
+import com.utamas.appointments.architecture.abstractions.ImageUtils
+import com.utamas.appointments.databinding.AppointmentRowLayoutBinding
 import com.utamas.appointments.model.Appointment
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.*
+import com.utamas.appointments.viewmodel.ListAppointmentsViewModel
 
-class AppointmentListItemAdapter (private val imageService: ImageService):
+class AppointmentListItemAdapter (private val imageService: ImageUtils):
         RecyclerView.Adapter<AppointmentListItemAdapter.ViewHolder>(){
-    inner class ViewHolder(view : View): RecyclerView.ViewHolder(view){
-        val imageView: ImageView = view.findViewById(R.id.imageTextView)
-        val nameTextView: TextView = view.findViewById(R.id.textViewName)
-        val dateTextView: TextView=view.findViewById(R.id.textViewDate)
 
-        fun bind(appointment: Appointment){
-            val imageResource=appointment.attachments.firstOrNull()
+    inner class ViewHolder(private val binding: AppointmentRowLayoutBinding): RecyclerView.ViewHolder(binding.root){
+        /*val imageView: ImageView = view.findViewById(R.id.imageTextView)
+        val nameTextView: TextView = view.findViewById(R.id.textViewName)
+        val dateTextView: TextView=view.findViewById(R.id.textViewDate)*/
+
+        fun bind(item: ListAppointmentsViewModel.AppointmentDisplayItem){
+            binding.item=item
+            /*val imageResource=appointment.attachments.firstOrNull()
             if(imageResource!=null) {
-                imageService.getImage(imageResource).subscribeOn(Schedulers.io())
+                imageService.base64ToImage(imageResource).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe{ bitmap, throwable ->if (bitmap!=null) this.imageView.setImageBitmap(bitmap)  }
             }
             this.nameTextView.text = appointment.description
-            this.dateTextView.text= appointment.validFor.toNiceString()
+            this.dateTextView.text= appointment.validFor.toNiceString()*/
         }
 
     }
 
-    private val sortedData: SortedList<Appointment> =
-        SortedList(Appointment::class.java,SortedListCallback(this))
+    private val sortedData: SortedList<ListAppointmentsViewModel.AppointmentDisplayItem> =
+        SortedList(ListAppointmentsViewModel.AppointmentDisplayItem::class.java,SortedListCallback<ListAppointmentsViewModel.AppointmentDisplayItem>(this))
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {/*
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.appointment_row_layout, viewGroup, false)
+            .inflate(R.layout.appointment_row_layout, viewGroup, false)*/
 
-        return ViewHolder(view)
+        val binding=AppointmentRowLayoutBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+
+        return ViewHolder(binding)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -57,22 +52,22 @@ class AppointmentListItemAdapter (private val imageService: ImageService):
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = sortedData.size()
 
-    fun addAll(appointment: Appointment) {
-        sortedData.add(appointment)
+    fun addAll(item: ListAppointmentsViewModel.AppointmentDisplayItem) {
+        sortedData.add(item)
     }
 
-    fun removeAll(appointment: Appointment) {
-        sortedData.remove(appointment)
+    fun removeAll(item: ListAppointmentsViewModel.AppointmentDisplayItem) {
+        sortedData.remove(item)
     }
 
-    fun addAll(appointments: List<Appointment>) {
-        sortedData.addAll(appointments)
+    fun addAll(items: List<ListAppointmentsViewModel.AppointmentDisplayItem>) {
+        sortedData.addAll(items)
     }
 
-    fun removeAll(appointments: List<Appointment>) {
+    fun removeAll(appointments: List<ListAppointmentsViewModel.AppointmentDisplayItem>) {
         sortedData.replaceAll(appointments)
     }
-    fun replaceAll( appointments: Set<Appointment>) {
+    fun replaceAll( appointments: Set<ListAppointmentsViewModel.AppointmentDisplayItem>) {
         sortedData.beginBatchedUpdates();
         for (i in sortedData.size()-1 downTo 0) {
             val appointment = sortedData[i];
@@ -85,12 +80,4 @@ class AppointmentListItemAdapter (private val imageService: ImageService):
     }
 
 }
-fun LocalDateTime.toNiceString(): String{
-    val date=this.toLocalDate()
-    val time=this.toLocalTime()
-    val medFormatter=DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-    val shortFormatter=DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(Locale.getDefault()).withZone(ZoneId.systemDefault())
-    return "${medFormatter.format(date)}\n" +
-            "${shortFormatter.format(time)}"
-   // return "${this.year}.${this.month}.${this.dayOfMonth} ${this.hour} : ${this.minute}"
-}
+

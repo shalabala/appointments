@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.utamas.appointments.activity.LogInActivity">
+  <!--  <item
+        android:id="@+id/action_back"
+        android:title="@string/navigate_back"
+        android:icon="@drawable/outline_arrow_back_24"
+        app:showAsAction="always" />-->
+    <item
+        android:id="@+id/save"
+        android:title="@string/save"
+        android:icon="@drawable/outline_done_24"
+        app:showAsAction="always"
+        />
+</menu>
