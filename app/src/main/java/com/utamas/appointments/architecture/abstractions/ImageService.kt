@@ -1,3 +1,4 @@
+
 package com.utamas.appointments.architecture.abstractions
 
 import android.graphics.Bitmap

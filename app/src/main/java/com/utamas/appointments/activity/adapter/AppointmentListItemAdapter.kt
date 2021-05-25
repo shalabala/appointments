@@ -21,7 +21,7 @@ import java.util.*
 class AppointmentListItemAdapter (private val imageService: ImageService):
         RecyclerView.Adapter<AppointmentListItemAdapter.ViewHolder>(){
     inner class ViewHolder(view : View): RecyclerView.ViewHolder(view){
-        val imageView: ImageView = view.findViewById(R.id.imageView)
+        val imageView: ImageView = view.findViewById(R.id.imageTextView)
         val nameTextView: TextView = view.findViewById(R.id.textViewName)
         val dateTextView: TextView=view.findViewById(R.id.textViewDate)
 

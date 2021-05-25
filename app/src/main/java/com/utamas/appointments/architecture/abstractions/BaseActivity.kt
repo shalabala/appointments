@@ -119,7 +119,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         showMessageDialog(title, message, button)
     }
 
-    protected fun runOnMainThread(runnable: Runnable?) {
+    protected fun runOnMainThread(runnable: ()->Unit) {
         mainThreadHandler.post(runnable)
     }
 
@@ -175,4 +175,6 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
             )
         )
     } //endregion
+
+
 }

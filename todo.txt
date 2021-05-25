@@ -2,7 +2,7 @@ TRAIL to success:
 
 Edit:
     -Date, Time (PIPA)
-    -Image adding
+    -Image adding (PIPA)
     -Chippek jól működjenek
     -VM bekötés
     -Toolbar menü (back és save)
@@ -17,6 +17,7 @@ Details:
 List:
     -Context menü létrehozása
     -Törlés megvalósítása
+    -edit megvalósítása
 
 Egyéb:
     -Reszponzivitás (Dőlt képernyő)
@@ -32,6 +33,9 @@ Deploy:
 Határidő: Szerda 12:00
 
 
+HIBÁK, JAVÍTÁSOK
+
+editen date-t is VM ből bindinggal szerezze
 
 logout gomb latszodjon
 view activity

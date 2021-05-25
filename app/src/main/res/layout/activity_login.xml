@@ -137,7 +137,7 @@
             app:layout_constraintGuide_percent=".55" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageTextView"
             android:layout_width="229dp"
             android:layout_height="185dp"
             app:layout_constraintBottom_toTopOf="@+id/textView2"

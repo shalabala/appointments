@@ -55,4 +55,11 @@
     <string name="pick_a_time">Pick a time!</string>
     <string name="choose_photo">Choose photo</string>
     <string name="take_photo">Take photo</string>
+    <string name="storage_permission_gallery_error">Without storage permission you cannot choose image from gallery</string>
+    <string name="no_camera_error">Camera app could not be found!</string>
+    <string name="io_error">Internal IO error, please try again!</string>
+    <string name="no_gallery_error">Gallery app could not be found!</string>
+    <string name="image_fetch_failed">Image fetching operation failed!</string>
+    <string name="click_here_to_choose_image">Click here to choose an image!</string>
+    <string name="new_note">New note</string>
 </resources>

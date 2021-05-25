@@ -7,7 +7,7 @@
     <dimen name="margin_medium">7dp</dimen>
     <dimen name="icon">35dp</dimen>
     <dimen name="chips_grout">50dp</dimen>
-    <dimen name="input_field_top_bottom">20dp</dimen>
+    <dimen name="input_field_top_bottom">15dp</dimen>
     <dimen name="input_field_left_right">15dp</dimen>
     <dimen name="margin_big">15dp</dimen>
 

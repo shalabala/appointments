@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.utamas.appointments">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:required="false"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:required="false"/>
     <application
+        android:requestLegacyExternalStorage="true"
         android:name=".AppointmentApplication"
         android:allowBackup="true"
         android:icon="@mipmap/calendar"
@@ -38,7 +41,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.utamas.cantwait.android.fileprovider"
+            android:authorities="com.utamas.appointments.android.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

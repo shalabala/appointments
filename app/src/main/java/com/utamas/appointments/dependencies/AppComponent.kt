@@ -1,6 +1,7 @@
 package com.utamas.appointments.dependencies
 
 import android.app.Application
+import com.utamas.appointments.activity.EditAppointmentActivity
 import com.utamas.appointments.activity.ListAppointmentsActivity
 import com.utamas.appointments.activity.LoginActivity
 import com.utamas.appointments.architecture.abstractions.BaseViewModel
@@ -15,6 +16,7 @@ interface AppComponent{
     fun inject(activity: LoginActivity)
     fun inject(viewModel: LoginViewModel)
     fun inject(viewModel: BaseViewModel)
+    fun inject(activity: EditAppointmentActivity)
     fun inject(activity: ListAppointmentsActivity)
 
     @Component.Builder
