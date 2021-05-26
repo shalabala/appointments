@@ -66,4 +66,7 @@
     <string name="save">Save</string>
     <string name="edit">Edit</string>
     <string name="new_appointment">New</string>
+    <string name="list_appointment_error">Failed to fetch appointments. Maybe no connection?</string>
+    <string name="save_error">Failed to save appointment. Maybe no connection?</string>
+    <string name="list_activity_title">Appointments</string>
 </resources>

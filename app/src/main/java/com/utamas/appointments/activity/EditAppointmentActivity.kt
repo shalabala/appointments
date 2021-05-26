@@ -31,6 +31,7 @@ import com.utamas.appointments.architecture.abstractions.ImageUtils
 import com.utamas.appointments.architecture.annotations.DeclareViewModel
 import com.utamas.appointments.architecture.annotations.DeclareXmlLayout
 import com.utamas.appointments.viewmodel.EditAppointmentViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.File
 import java.io.IOException
@@ -46,7 +47,7 @@ import javax.inject.Inject
 @DeclareViewModel(EditAppointmentViewModel::class)
 class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
 
-    private val edit=false
+    private val edit = false
     private val CAMERA_REQUEST_CODE = 3
     private val GALLERY_REQUEST_CODE = 5
     private val STORAGE_REQUEST_CODE = 2
@@ -121,14 +122,19 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
 
         t.inflateMenu(R.menu.menu_on_edit)
         t.menu.findItem(R.id.save).setOnMenuItemClickListener { save() }
-        t.setTitle(if( edit)resources.getString(R.string.edit) else resources.getString(R.string.new_appointment))
+        t.title = if (edit) resources.getString(R.string.edit) else resources.getString(R.string.new_appointment)
         t.setNavigationIcon(R.drawable.outline_arrow_back_24)
-        t.setNavigationOnClickListener{finish()}
+        t.setNavigationOnClickListener { finish() }
     }
 
     private fun save(): Boolean {
+        viewModel.save({
+            finish()
+                       }, {
+            Toast.makeText(this,resources.getString(R.string.save_error),Toast.LENGTH_LONG).show()
+            it.printStackTrace()
+                       })
         return true
-
     }
 
     //endregion
@@ -330,18 +336,16 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
 
     private fun setImage(imageFile: File) {
         imageUtils.processIntentImage(imageFile).subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { runOnMainThread { viewModel.bitmap = it } },
+                { viewModel.bitmap = it },
                 {
-                    runOnMainThread {
-                        Toast.makeText(
-                            this,
-                            resources.getString(R.string.image_fetch_failed),
-                            Toast.LENGTH_LONG
-                        ).show()
-                        it.printStackTrace()
-                    }
-
+                    Toast.makeText(
+                        this,
+                        resources.getString(R.string.image_fetch_failed),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    it.printStackTrace()
                 })
 
     }

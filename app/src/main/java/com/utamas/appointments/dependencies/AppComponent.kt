@@ -5,6 +5,8 @@ import com.utamas.appointments.activity.EditAppointmentActivity
 import com.utamas.appointments.activity.ListAppointmentsActivity
 import com.utamas.appointments.activity.LoginActivity
 import com.utamas.appointments.architecture.abstractions.BaseViewModel
+import com.utamas.appointments.viewmodel.EditAppointmentViewModel
+import com.utamas.appointments.viewmodel.ListAppointmentsViewModel
 import com.utamas.appointments.viewmodel.LoginViewModel
 import dagger.BindsInstance
 import dagger.Component
@@ -16,6 +18,8 @@ interface AppComponent{
     fun inject(activity: LoginActivity)
     fun inject(viewModel: LoginViewModel)
     fun inject(viewModel: BaseViewModel)
+    fun inject(viewModel: ListAppointmentsViewModel)
+    fun inject(viewModel: EditAppointmentViewModel)
     fun inject(activity: EditAppointmentActivity)
     fun inject(activity: ListAppointmentsActivity)
 

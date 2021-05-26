@@ -2,12 +2,17 @@ package com.utamas.appointments.viewmodel
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import com.google.firebase.auth.ktx.oAuthProvider
 import com.utamas.appointments.architecture.abstractions.AppointmentService
 import com.utamas.appointments.architecture.abstractions.BaseViewModel
 import com.utamas.appointments.architecture.abstractions.ImageUtils
 import com.utamas.appointments.model.Appointment
+import com.utamas.appointments.model.validFor
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -29,31 +34,31 @@ class ListAppointmentsViewModel(application: Application) : BaseViewModel(applic
         appointmentApplication.appComponent.inject(this)
 
     }
+    @BindingAdapter("android:imageBitmap")
+    fun loadImage(iv: ImageView, bitmap: Bitmap?) {
+        //TODO megcsinálni ezt ObservableField-é, hogy működjön a betöltött kép
+        iv.setImageBitmap(bitmap)
+    }
 
-    fun loadAppointments(){
+    fun loadAppointments(onSuccesCallback:(List<AppointmentDisplayItem>)->Unit,onErrorCallback:(Throwable)->Unit){
         appointmentService.getAllForUser(userService.currentUser?.uid?:"")
-            .addOnSuccessListener { documents->
-                for(a in documents){
-            }
-            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ l->onSuccesCallback(l.map { AppointmentDisplayItem(it) }) }, {t-> onErrorCallback(t)} )
+
     }
     inner class AppointmentDisplayItem{
-        val id= ObservableField<String>("")
-        val name= ObservableField<String>("")
-        val category= ObservableField<String>("")
-        val date= ObservableField<String>("")
-        val image= ObservableField<Bitmap>()
+        val date: String
+        lateinit var image: Bitmap
+        val appointment: Appointment
 
         constructor(a: Appointment){
-            id.set(a.id)
-            name.set(a.description)
-            category.set(a.category)
-            date.set(a.validFor.toNiceString())
+            appointment=a
+            date=a.validFor.toNiceString()
 
             if(a.attachments.isNotEmpty()){
-                imageUtils.base64ToImage(a.attachments.first()).subscribeOn(Schedulers.computation())
-                    .subscribe{bitmap->runOnMainThread { image.set(bitmap) }}
-
+                imageUtils.base64ToImage(a.attachments.first()).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe{bitmap-> image=bitmap }
             }
 
 
@@ -74,3 +79,4 @@ class ListAppointmentsViewModel(application: Application) : BaseViewModel(applic
 
 
 }
+

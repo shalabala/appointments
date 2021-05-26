@@ -5,10 +5,11 @@ Edit:
     -Image adding (PIPA)
     -Chippek jól működjenek (PIPA)
     -VM bekötés (PIPA)
-    -Toolbar menü (back és save)
+    -Toolbar menü (back és save) (PIPA)
 
 Firebase:
     -Firebase service bekötése
+    -ImageUtils base64 en/decoder
 
 Details:
     -Details oldal létrehozása

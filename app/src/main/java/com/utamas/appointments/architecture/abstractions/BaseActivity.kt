@@ -119,6 +119,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         showMessageDialog(title, message, button)
     }
 
+    @Deprecated("Use rx instead")
     protected fun runOnMainThread(runnable: ()->Unit) {
         mainThreadHandler.post(runnable)
     }

@@ -1,13 +1,13 @@
 package com.utamas.appointments.services
 
-import android.database.Observable
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.utamas.appointments.architecture.abstractions.AppointmentService
 import com.utamas.appointments.model.Appointment
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class FirebaseAppointmentService @Inject constructor(private val db: FirebaseFirestore): AppointmentService{
 
@@ -15,16 +15,42 @@ class FirebaseAppointmentService @Inject constructor(private val db: FirebaseFir
     private val USER_ID_PROPERTY_NAME="externalId"
     private val collection=db.collection(COLL_STRING)
 
-    fun setOrUpdate(appointment: Appointment): Task<Void> {
-        return collection.document(appointment.id).set(appointment)
+    override fun setOrUpdate(appointment: Appointment): Completable {
+        return Completable.fromCallable{
+            val task=collection.document(appointment.id).set(appointment)
+            Tasks.await(task)
+            if(task.isSuccessful){
+                Completable.complete()
+            }else{
+                Completable.error(task.exception)
+            }
+        }
     }
 
-    fun getAllForUser(userId: String): Task<QuerySnapshot> {
-        return collection.whereEqualTo(USER_ID_PROPERTY_NAME,userId).get()
+    override fun getAllForUser(userId: String): Single<List<Appointment>> {
+        return Single.fromCallable{
+            val list=mutableListOf<Appointment>()
+            val task=collection.whereEqualTo(USER_ID_PROPERTY_NAME,userId).get()
+            Tasks.await(task)
+            if(task.isSuccessful) {
+                task.result!!.forEach { list.add(it.toObject(Appointment::class.java)) }
+                list
+            }else{
+                throw task.exception!!
+            }
+        }
     }
 
-    fun delete(appointment: Appointment): Task<Void> {
-        return collection.document(appointment.id).delete()
+    override fun delete(appointment: Appointment): Completable {
+        return Completable.fromCallable{
+            val task=collection.document(appointment.id).delete()
+            Tasks.await(task)
+            if(task.isSuccessful){
+                Completable.complete()
+            }else{
+                Completable.error(task.exception)
+            }
+        }
     }
 
 }

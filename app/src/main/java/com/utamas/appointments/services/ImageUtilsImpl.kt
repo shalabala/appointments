@@ -5,8 +5,10 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.media.ExifInterface
+import android.util.Base64
 import com.utamas.appointments.architecture.abstractions.ImageUtils
 import io.reactivex.rxjava3.core.Single
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -24,15 +26,27 @@ class ImageUtilsImpl @Inject constructor() : ImageUtils {
     }
 
     override fun imageToBase64(bitmap: Bitmap): Single<String> {
-        TODO("Not yet implemented")
+        return Single.fromCallable {
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val byteArray = stream.toByteArray()
+            Base64.encodeToString(byteArray, Base64.DEFAULT)
+        }
     }
 
-    override fun base64ToImage(string: String): Single<Bitmap> {
-        TODO("Not yet implemented")
+    override fun base64ToImage(base64: String): Single<Bitmap> {
+        return Single.fromCallable {
+            val decodedBytes: ByteArray = Base64.decode(
+                base64.substring(base64.indexOf(",") + 1),
+                Base64.DEFAULT
+            )
+
+            BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+        }
     }
 
     override fun addBorder(bmp: Bitmap, borderSize: Int, color: Int): Single<Bitmap> {
-        return Single.fromCallable{addBorderSync(bmp,borderSize,color)}
+        return Single.fromCallable { addBorderSync(bmp, borderSize, color) }
     }
 
     //endregion

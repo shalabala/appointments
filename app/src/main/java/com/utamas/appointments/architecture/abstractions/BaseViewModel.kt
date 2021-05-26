@@ -31,6 +31,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         mainThreadHandler= Handler(appointmentApplication.mainLooper)
     }
 
+    @Deprecated("Use rx when possible instead")
     fun runOnMainThread(runnable:()->Unit){
         mainThreadHandler.post(runnable)
     }

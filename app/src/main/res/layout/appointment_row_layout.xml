@@ -7,8 +7,7 @@
             type="com.utamas.appointments.viewmodel.ListAppointmentsViewModel.AppointmentDisplayItem"/>
 
     </data>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
     android:layout_margin="@dimen/margin_smaller">
@@ -25,13 +24,14 @@
             android:id="@+id/imageTextView"
             android:layout_width="@dimen/list_item_height"
             android:layout_height="match_parent"
-            app:srcCompat="@{item.image}" />
+            android:imageBitmap="@{item.image}"
+             />
 
         <TextView
             android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@{item.name}" />
+            android:text="@{item.appointment.description}" />
 
         <TextView
             android:id="@+id/textViewDate"
@@ -41,3 +41,4 @@
             android:textAlignment="viewEnd" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
+</layout>

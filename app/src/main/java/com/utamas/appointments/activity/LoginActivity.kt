@@ -2,18 +2,14 @@ package com.utamas.appointments.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.view.Window
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.databinding.BindingAdapter
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.utamas.appointments.R
@@ -21,10 +17,9 @@ import com.utamas.appointments.architecture.abstractions.BaseActivity
 import com.utamas.appointments.architecture.abstractions.UserService
 import com.utamas.appointments.architecture.annotations.DeclareViewModel
 import com.utamas.appointments.architecture.annotations.DeclareXmlLayout
-import com.utamas.appointments.services.FirebaseUserService
-import com.utamas.appointments.validateEmailField
 import com.utamas.appointments.viewmodel.LoginViewModel
 import javax.inject.Inject
+
 
 @DeclareXmlLayout(R.layout.activity_login)
 @DeclareViewModel(LoginViewModel::class)
@@ -64,22 +59,33 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         startActivityForResultIfIntentReceivable(intent, REGISTER_REQUEST)
     }
     fun loginWithGoogle(v: View): Unit{
-        startActivityForResultIfIntentReceivable(userService.googleSignInIntent,GOOGLE_REQUEST)
+        startActivityForResultIfIntentReceivable(userService.googleSignInIntent, GOOGLE_REQUEST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==REGISTER_REQUEST){
             when(resultCode){
-                Activity.RESULT_OK-> Toast.makeText(this, getString(R.string.successful_registration),Toast.LENGTH_LONG).show()
-                Activity.RESULT_FIRST_USER-> Toast.makeText(this, getString(R.string.unsuccessful_registration),Toast.LENGTH_LONG).show()
+                Activity.RESULT_OK -> Toast.makeText(
+                    this,
+                    getString(R.string.successful_registration),
+                    Toast.LENGTH_LONG
+                ).show()
+                Activity.RESULT_FIRST_USER -> Toast.makeText(
+                    this,
+                    getString(R.string.unsuccessful_registration),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
         if(requestCode==GOOGLE_REQUEST){
             userService.handleGoogleSignInResult(data,
                 onLogin(getString(R.string.unsuccessful_google_login)),
-                {Log.d(TAG,"google login error: ",it)
-                Toast.makeText(this,getString(R.string.checkConnection),Toast.LENGTH_LONG).show()})
+                {
+                    Log.d(TAG, "google login error: ", it)
+                    Toast.makeText(this, getString(R.string.checkConnection), Toast.LENGTH_LONG)
+                        .show()
+                })
         }
     }
     private fun onLogin(errorMessage: String): (Task<AuthResult>) -> Unit {
@@ -87,8 +93,8 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         if(it.isSuccessful){
             navigateToListAppointmentActivity()
         }else{
-            Log.d(TAG, "login error: ",it.exception)
-            Toast.makeText(this, errorMessage,Toast.LENGTH_LONG).show()
+            Log.d(TAG, "login error: ", it.exception)
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
         }
     }}
     private fun navigateToListAppointmentActivity(){
