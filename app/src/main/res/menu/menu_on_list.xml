@@ -9,9 +9,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/overdue"
-        android:title="@string/showoverdue"
-        android:checkable="true"
-        android:checked="true"
+        android:title="@string/hide_overdue"
         app:showAsAction="ifRoom"
         />
     <item

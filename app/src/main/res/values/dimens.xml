@@ -13,6 +13,11 @@
     <dimen name="text_field_left_right">10dp</dimen>
     <dimen name="margin_big">15dp</dimen>
     <dimen name="picture_width_height">150dp</dimen>
+    <dimen name="icon_login_portrait_width">230dp</dimen>
+    <dimen name="icon_login_portrait_height">190dp</dimen>
+    <dimen name="login_labels">10dp</dimen>
+    <dimen name="icon_login_landscape_width">115dp</dimen>
+    <dimen name="icon_login_landscape_height">95dp</dimen>
 
 
 </resources>

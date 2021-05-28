@@ -21,6 +21,7 @@ import com.utamas.appointments.viewmodel.AppointmentDisplayItem
 import com.utamas.appointments.viewmodel.EditAppointmentViewModel
 import com.utamas.appointments.viewmodel.ListAppointmentsViewModel
 import javax.inject.Inject
+import kotlin.random.Random
 
 @DeclareViewModel(ListAppointmentsViewModel::class)
 @DeclareXmlLayout(R.layout.activity_list_appointments)
@@ -43,18 +44,23 @@ class ListAppointmentsActivity : BaseActivity<ListAppointmentsViewModel>(),
         appointmentApplication.appComponent.inject(this)
         setUpToolbar(findViewById<Toolbar>(R.id.toolbar))
         setUpRecyclerView()
-        reloadAdapterItems()
 
     }
+
 
     override fun onResume() {
         super.onResume()
-    }
-    override fun onRestart() {
-        super.onRestart()
         reloadAdapterItems()
+        viewModel.checkForOverdue({
+            if(it.size>0){
+                notifications.showAppointmentNotification(
+                    String.format(getString(R.string.number_of_overdue_appointments),
+                        it.size)
+                    ,System.currentTimeMillis().toInt())
+            }},{it.printStackTrace()})
 
     }
+
     private fun reloadAdapterItems(){
         viewModel.loadAppointments({ adapter.clear();adapter.addAll(it) },
             {
@@ -95,8 +101,9 @@ class ListAppointmentsActivity : BaseActivity<ListAppointmentsViewModel>(),
             true
         }
         t.menu.findItem(R.id.overdue).setOnMenuItemClickListener {
-            it.isChecked=!it.isChecked
-            this.adapter.setShowOverdue(it.isChecked)
+            val switchToShow=it.title==getString(R.string.show_overdue)
+            this.adapter.setShowOverdue(switchToShow)
+            it.title=if(switchToShow) getString(R.string.hide_overdue) else getString(R.string.show_overdue)
             true
         }
         searchView.setOnQueryTextListener(this)

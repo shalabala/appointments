@@ -5,8 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.VectorDrawable
-import android.view.View
-import android.widget.SimpleCursorAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.BindingAdapter
@@ -17,9 +16,6 @@ import com.utamas.appointments.R
 import com.utamas.appointments.model.AppointmentStatus
 import com.utamas.appointments.model.ContactMedium
 import java.lang.AssertionError
-import java.util.function.BiConsumer
-import java.util.function.Consumer
-import java.util.function.Function
 
 
 @BindingAdapter("chipItems")
@@ -38,6 +34,17 @@ fun backgroundDrawableOrBitmap(v:TextView, background:Any){
         v.background=background
     }else throw AssertionError("given value is neither bitmap nor drawable")
 }
+
+@BindingAdapter("imageDrawableOrBitmap")
+fun imageDrawableOrBitmap(v: ImageView, image:Any){
+    if (image is Bitmap){
+        v.setImageBitmap(image)
+    }else if(image is Drawable){
+        v.setImageDrawable(image)
+    }else throw AssertionError("given value is neither bitmap nor drawable")
+}
+
+
 
 fun <T> getDefaultIfNotProvided(provided: T?, default: T):T {
     if(provided==null){

@@ -65,21 +65,22 @@ class AppointmentListItemAdapter (private val imageService: ImageUtils):
     private fun getFiltered(): Set<Item> {
         val set=HashSet<Item>()
         allData.filter{
-            it.appointment.description!=null&& it.appointment.category!=null &&
-                    (it.appointment.description.toLowerCase().contains(lastQuery.queryString.toLowerCase()) ||
-                            it.appointment.category.toLowerCase().contains(lastQuery.queryString.toLowerCase())) &&
-                    (it.appointment.validFor>LocalDateTime.now()||lastQuery.showOverdue)
+            lastQuery.test(it)
         }.forEach{set.add(it)}
         return set
     }
 
     fun addAll(items: List<Item>) {
-        sortedData.addAll(items)
         allData.addAll(items)
+        filter()
     }
 
+    fun clear() {
+        sortedData.replaceAll(emptyList())
+        allData.clear()
+    }
 
-    fun replaceAllInSortedList(appointments: Set<Item>) {
+    private fun replaceAllInSortedList(appointments: Set<Item>) {
         sortedData.beginBatchedUpdates();
         for (i in sortedData.size()-1 downTo 0) {
             val appointment = sortedData[i];
@@ -91,13 +92,18 @@ class AppointmentListItemAdapter (private val imageService: ImageUtils):
         sortedData.endBatchedUpdates();
     }
 
-    fun clear() {
-        sortedData.replaceAll(emptyList())
-        allData.clear()
+
+
+
+    private class Query (var queryString: String, var showOverdue: Boolean){
+        fun test(item: Item): Boolean{
+            return item.appointment.description!=null&& item.appointment.category!=null &&
+                    (item.appointment.description.toLowerCase().contains(queryString.toLowerCase()) ||
+                            item.appointment.category.toLowerCase().contains(queryString.toLowerCase())) &&
+                    (item.appointment.validFor>LocalDateTime.now()||showOverdue)
+
+        }
     }
-
-
-    private data class Query (var queryString: String, var showOverdue: Boolean)
 
     inner class ViewHolder(private val binding: AppointmentRowLayoutBinding): RecyclerView.ViewHolder(binding.root){
         var item: Item? =null

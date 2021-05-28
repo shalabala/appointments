@@ -39,18 +39,19 @@ class ListAppointmentsViewModel(application: Application) : BaseViewModel(applic
         onSuccesCallback: (List<AppointmentDisplayItem>) -> Unit,
         onErrorCallback: (Throwable) -> Unit
     ) {
-        if (userService.currentUser?.uid != null) {
             appointmentService.getAllForUser(userService.currentUser?.uid!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { l -> onSuccesCallback(l.map { AppointmentDisplayItem(imageUtils,it) }) },
                     { t -> onErrorCallback(t) })
-        }
     }
 
     fun checkForOverdue(onSuccesCallback: (List<Appointment>) -> Unit,
                         onErrorCallback: (Throwable) -> Unit) {
+        appointmentService.updateStatusOnOverdue(userService?.currentUser?.uid!!).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onSuccesCallback,onErrorCallback)
 
     }
 

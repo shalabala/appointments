@@ -1,64 +1,11 @@
-TRAIL to success:
+Továbbiakban:
 
-Edit:
-    -Date, Time (PIPA)
-    -Image adding (PIPA)
-    -Chippek jól működjenek (PIPA)
-    -VM bekötés (PIPA)
-    -Toolbar menü (back és save) (PIPA)
+Context menü létrehozása (utoljára!)
 
-Firebase:
-    -Firebase service bekötése (PIPA)
-    -ImageUtils base64 en/decoder (PIPA)
-
-Details:
-    -Details oldal létrehozása(PIPA)
-    -Azon Vm bekötés(PIPA)
-
-List:
-    -Context menü létrehozása (utoljára!)
-    -menure: checkbox hogy a lejártakat is-e? (PIPA)
-    -a lejartak piros keretet kapnak (PIPA)
-    -Törlés megvalósítása (PIPA)
-    -edit megvalósítása (Chippekre kulonosen figyelni) (PIPA)
-
-Egyéb:
-   >> -Reszponzivitás (Dőlt képernyő)
-   >> -Értesítések
-   >> -Edit validációja
-   >> -Mi legyen a lejárt appointmentekkel?
-   >> -Lifecycle hookok(PIPA)
-
-Deploy:
-   >> -APK létrehozás pdf átnézése
-   >> -APK létrehozás
-   >> -átnézézés
-   >> -Beadás
-
-Határidő: Szerda 12:00
-
-
-HIBÁK, JAVÍTÁSOK
-
-editactivity manualbindings legyen binding adapter
-Memory leakek manual bindingoknál?
-editen date-t is VM ből bindinggal szerezze
-person és note dialog validációja
-logout gomb latszodjon
-view activity
-new activity 
-edit lehetőségek  megvalósítása
-recycle view animator
-recycle view action mode több törlésére
-
-
-activity ikonok
-
-aprosagok
 lehessen google calendarba hozzadni, onnan ki is torlodjon
 room persistance anonym bejelentkezesnel
-kép persistance localstorage ban (PIPA)
-kép megszerzése kamerától(PIPA)
+scheduled notifications broadcast recieverrel
 kép törlése
+login es register validációjának egységesítése
 
 

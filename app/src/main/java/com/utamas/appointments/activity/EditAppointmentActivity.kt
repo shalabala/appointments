@@ -75,11 +75,11 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
         super.onCreate(savedInstanceState)
         setUpToolbar(findViewById(R.id.toolbar2))
 
-        val id=intent.getStringExtra(APPOINTMENT_ITEM)
-        if(id!=null){
-            viewModel.setAppointment(id,{},{
-               showLongToast(R.string.data_loading_error)
-            },{showLongToast(R.string.image_conversion_error)})
+        val id = intent.getStringExtra(APPOINTMENT_ITEM)
+        if (id != null) {
+            viewModel.setAppointment(id, {}, {
+                showLongToast(R.string.data_loading_error)
+            }, { showLongToast(R.string.image_conversion_error) })
         }
         appointmentApplication.appComponent.inject(this)
         personChipGroup = findViewById(R.id.contactsChipGroup)
@@ -128,26 +128,32 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
         t.inflateMenu(R.menu.menu_on_edit)
         t.menu.findItem(R.id.save).setOnMenuItemClickListener { save() }
 
-        t.title = if (edit) resources.getString(R.string.edit) else resources.getString(R.string.new_appointment)
+        t.title =
+            if (edit) resources.getString(R.string.edit) else resources.getString(R.string.new_appointment)
         t.setNavigationIcon(R.drawable.outline_arrow_back_24)
         t.setNavigationOnClickListener { finish() }
     }
 
     private fun save(): Boolean {
-        viewModel.save({
-            finish()
-                       }, {
-            Toast.makeText(this,resources.getString(R.string.save_error),Toast.LENGTH_LONG).show()
-            it.printStackTrace()
-                       })
+        if (viewModel.isValid()) {
+            viewModel.save({
+                finish()
+            }, {
+                Toast.makeText(this, resources.getString(R.string.save_error), Toast.LENGTH_LONG)
+                    .show()
+                it.printStackTrace()
+            })
+        } else {
+            showLongToast(R.string.edit_activity_validation_message)
+        }
         return true
     }
 
     //endregion
 
     //region data binding
-    private fun  performManualBindings() {
-      viewModel.apply {
+    private fun performManualBindings() {
+        viewModel.apply {
             contacts.addOnListChangedCallback(
                 ChipGroupListObserver(
                     this@EditAppointmentActivity,
@@ -163,18 +169,30 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
                 )
             )
         }
-        dateTextField.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
+        dateTextField.apply {
+            setOnClickListener {
                 openDatePicker()
+                true
             }
+            setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    openDatePicker()
+                }
+            }
+
         }
-        timeTextField.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
+        timeTextField.apply {
+            setOnClickListener {
                 openTimePicker()
+                true
+            }
+            setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    openTimePicker()
+                }
             }
         }
     }
-
 
 
 //endregion
@@ -189,6 +207,7 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
     }
 
 //endregion
+
 
     //region image selection
     fun getImage(v: View? = null) {
@@ -274,7 +293,7 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
         imageUtils.processIntentImage(imageFile).subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { viewModel.image.set( it) },
+                { viewModel.image.set(it) },
                 {
                     Toast.makeText(
                         this,
@@ -316,7 +335,9 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
 //endregion
 
     //region date time
+
     fun openDatePicker(v: View? = null) {
+
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(resources.getString(R.string.pick_a_date))

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.ObservableArrayList
 import androidx.fragment.app.DialogFragment
 import com.utamas.appointments.R
-import com.utamas.appointments.model.ContactMedium
 
 class NoteDialog(private val observableList: ObservableArrayList<String>) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -21,17 +20,28 @@ class NoteDialog(private val observableList: ObservableArrayList<String>) : Dial
             builder.setView(input)
                 .setPositiveButton(
                     R.string.ok,
-                    DialogInterface.OnClickListener { dialog, _ ->
-                        val note=input.text.toString()
-                        observableList.add(note)
-                    })
+                    null)
                 .setNegativeButton(
                     R.string.cancel,
                     DialogInterface.OnClickListener { dialog, _ ->
                         dialog.cancel()
                     })
                 .setTitle(getString(R.string.new_note))
-            builder.create()
+            val dialog=builder.create()
+            dialog.setOnShowListener {
+                val button = (it as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener{
+                        val note = input.text.toString()
+                        if (note.isNullOrBlank()) {
+                            input.error = it.resources.getString(R.string.this_cant_be_empty)
+                        } else {
+                            observableList.add(note)
+                            dialog.dismiss()
+                        }
+
+                }
+            }
+            dialog
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 }

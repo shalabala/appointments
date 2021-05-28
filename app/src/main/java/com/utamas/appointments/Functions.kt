@@ -20,7 +20,7 @@ fun validatePasswordAgainField(passwordAgain: EditText, password: String, contex
 
 fun validateEmailField(email: EditText, context: Context):Boolean {
     var ret = true
-    if (email.text.isNullOrEmpty()) {
+    if (email.text.isNullOrBlank()) {
         email.error = context.getString(R.string.reqired)
         ret = false
     } else if (!isEmail(email.text.toString())) {
@@ -30,7 +30,7 @@ fun validateEmailField(email: EditText, context: Context):Boolean {
 }
 fun validatePasswordField(password: EditText, context: Context): Boolean{
     var ret = true
-    if (password.text.isNullOrEmpty()) {
+    if (password.text.isNullOrBlank()) {
         password.error = context.getString(R.string.reqired)
         ret = false
 

@@ -72,10 +72,10 @@
     <string name="appointment_details">Appointment details</string>
     <string name="data_loading_error">Could not load data</string>
     <string name="status">Status</string>
-    <string name="initialized_status">Initialized</string>
+    <string name="initialized_status">Active</string>
     <string name="confirmed_status">Confirmed</string>
     <string name="cancelled_status">Cancelled</string>
-    <string name="completed_status">Completed</string>
+    <string name="completed_status">Overdue</string>
     <string name="failed_status">Failed</string>
     <string name="empty_string" />
     <string name="delete">Delete</string>
@@ -83,5 +83,12 @@
     <string name="delete_dialog_message">Do you really want to delete this appointment?</string>
     <string name="deletion_failed">Could not delete item! Maybe no connection?</string>
     <string name="image_conversion_error">Image conversion failed</string>
-    <string name="showoverdue">Show overdue</string>
+    <string name="show_overdue">Show overdue</string>
+    <string name="hide_overdue">Hide overdue</string>
+    <string name="channel_name">main channel</string>
+    <string name="channel_description">normal notifications</string>
+    <string name="number_of_overdue_appointments">There are %d overdue appointments!</string>
+    <string name="edit_activity_validation_message">Description, Category, Place cannot be empty or blank, and the date has to be a future date</string>
+    <string name="this_cant_be_empty">This cannot be empty!</string>
+    <string name="login_validation_error" >Username and password cannot be empty</string>
 </resources>

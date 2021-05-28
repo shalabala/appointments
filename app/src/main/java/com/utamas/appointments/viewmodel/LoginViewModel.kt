@@ -19,6 +19,12 @@ class LoginViewModel(application: Application) :BaseViewModel(application){
         userName.set("")
         password.set("")
     }
+    fun isValid(): Boolean{
+        return!(
+                userName.get().isNullOrBlank()||
+                        password.get().isNullOrBlank()
+                )
+    }
 
 
 }

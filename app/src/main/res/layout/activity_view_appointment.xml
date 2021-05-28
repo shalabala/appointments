@@ -39,7 +39,7 @@
                     android:layout_width="@dimen/picture_width_height"
 
                     android:layout_height="@dimen/picture_width_height"
-                    android:imageBitmap="@{VM.image}"
+                    app:imageDrawableOrBitmap="@{VM.image ?? @drawable/baseline_image_24}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

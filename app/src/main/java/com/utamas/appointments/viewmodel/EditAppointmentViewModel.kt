@@ -23,8 +23,8 @@ import java.util.*
 import javax.inject.Inject
 
 class EditAppointmentViewModel(application: Application) : BaseViewModel(application) {
-    val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
-    val timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+    private val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+    private val timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
     private var originalAppointment: Appointment? = null
 
@@ -43,7 +43,7 @@ class EditAppointmentViewModel(application: Application) : BaseViewModel(applica
     @Inject
     lateinit var appointmentService: AppointmentService
 
-    private var validForField: LocalDateTime
+    private lateinit var validForField: LocalDateTime
 
 
     var validFor: LocalDateTime
@@ -56,7 +56,7 @@ class EditAppointmentViewModel(application: Application) : BaseViewModel(applica
 
     init {
         appointmentApplication.appComponent.inject(this)
-        validForField = LocalDateTime.now()
+        validFor = LocalDateTime.now()
 
     }
 
@@ -86,6 +86,15 @@ class EditAppointmentViewModel(application: Application) : BaseViewModel(applica
                 }
 
             }, onError)
+    }
+
+    fun isValid():Boolean{
+        return !(
+                description.get().isNullOrBlank()||
+                        category.get().isNullOrBlank()||
+                place.get().isNullOrBlank()||
+                        validFor<LocalDateTime.now()
+                )
     }
 
     fun save(onSucces: () -> Unit, onError: (Throwable) -> Unit) {
@@ -130,6 +139,7 @@ class EditAppointmentViewModel(application: Application) : BaseViewModel(applica
             relatedPlace = place.get()!!,
             validForStr = validFor.toString(),
             contactMedia = contacts,
+            status = AppointmentStatus.INITIALIZED,
             notes = notes,
             attachments = addImageToAttachments(base64),
             lastUpdateStr = LocalDateTime.now().toString()

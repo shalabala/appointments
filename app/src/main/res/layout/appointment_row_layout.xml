@@ -24,7 +24,7 @@
             android:id="@+id/imageTextView"
             android:layout_width="@dimen/list_item_height"
             android:layout_height="match_parent"
-            android:imageBitmap="@{item.image}"
+            app:imageDrawableOrBitmap="@{item.image ?? @drawable/baseline_image_24}"
              />
 
         <TextView

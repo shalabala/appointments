@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/imageTextView"
-            android:layout_width="@dimen/icon_login_portrait_width"
-            android:layout_height="@dimen/icon_login_portrait_height"
+            android:layout_width="@dimen/icon_login_landscape_width"
+            android:layout_height="@dimen/icon_login_landscape_height"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -30,13 +30,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/login_labels"
+
             android:text="@string/user_name"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@+id/editTextUserName"
-            app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
         <EditText
             android:id="@+id/editTextUserName"
@@ -47,7 +46,7 @@
             android:inputType="textPersonName"
             android:text="@={VM.userName}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="@+id/guideline5"
             app:layout_constraintVertical_bias="0.0" />
@@ -56,15 +55,12 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/login_labels"
 
             android:text="@string/password"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
+            app:layout_constraintBottom_toTopOf="@+id/guideline5"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/editTextUserName"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintStart_toStartOf="@+id/guideline4" />
 
 
         <EditText
@@ -75,11 +71,9 @@
             android:hint="@string/type_password_here"
             android:inputType="textPassword"
             android:text="@={VM.password}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/guideline6"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
         <Button
             android:id="@+id/registerButton"

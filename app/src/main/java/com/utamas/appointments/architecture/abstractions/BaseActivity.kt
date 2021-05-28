@@ -14,6 +14,7 @@ import com.utamas.appointments.AppointmentApplication
 import com.utamas.appointments.architecture.annotations.DeclareViewModel
 import com.utamas.appointments.architecture.annotations.DeclareXmlLayout
 import com.utamas.appointments.architecture.exception.NotAnnotatedException
+import com.utamas.appointments.architecture.notifications.AppointmentNotifications
 import java.lang.reflect.Method
 import kotlin.reflect.KClass
 
@@ -37,10 +38,14 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
     private lateinit var mainThreadHandler: Handler
     private var layout: Int = 0
 
+    protected lateinit var notifications: AppointmentNotifications
+    private set
+
     //endregion
     //region methods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        notifications= AppointmentNotifications(this)
         appointmentApplication=application as AppointmentApplication
         mainThreadHandler = Handler(applicationContext.mainLooper)
         setLayoutAndViewModel()
@@ -201,6 +206,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
             )
         )
     } //endregion
+
 
 
 }
