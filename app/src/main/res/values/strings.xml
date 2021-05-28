@@ -69,4 +69,19 @@
     <string name="list_appointment_error">Failed to fetch appointments. Maybe no connection?</string>
     <string name="save_error">Failed to save appointment. Maybe no connection?</string>
     <string name="list_activity_title">Appointments</string>
+    <string name="appointment_details">Appointment details</string>
+    <string name="data_loading_error">Could not load data</string>
+    <string name="status">Status</string>
+    <string name="initialized_status">Initialized</string>
+    <string name="confirmed_status">Confirmed</string>
+    <string name="cancelled_status">Cancelled</string>
+    <string name="completed_status">Completed</string>
+    <string name="failed_status">Failed</string>
+    <string name="empty_string" />
+    <string name="delete">Delete</string>
+    <string name="delete_dialog_title">Warning</string>
+    <string name="delete_dialog_message">Do you really want to delete this appointment?</string>
+    <string name="deletion_failed">Could not delete item! Maybe no connection?</string>
+    <string name="image_conversion_error">Image conversion failed</string>
+    <string name="showoverdue">Show overdue</string>
 </resources>

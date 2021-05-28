@@ -9,7 +9,10 @@
     <dimen name="chips_grout">50dp</dimen>
     <dimen name="input_field_top_bottom">15dp</dimen>
     <dimen name="input_field_left_right">15dp</dimen>
+    <dimen name="text_field_top_bottom">10dp</dimen>
+    <dimen name="text_field_left_right">10dp</dimen>
     <dimen name="margin_big">15dp</dimen>
+    <dimen name="picture_width_height">150dp</dimen>
 
 
 </resources>

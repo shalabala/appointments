@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.utamas.appointments.R
 import com.utamas.appointments.model.ContactMedium
 
-class PersonDialog(private val observableList: ObservableArrayList<Pair<String, ContactMedium>>) :
+class PersonDialog(private val observableList: ObservableArrayList<ContactMedium>) :
     DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -27,9 +27,8 @@ class PersonDialog(private val observableList: ObservableArrayList<Pair<String, 
                         val contact =
                             dialog.findViewById<EditText>(R.id.contact)?.text.toString()
 
-                        observableList.add(
-                            person to ContactMedium(
-                                "Contact of $person",
+                        observableList.add(ContactMedium(
+                                person,
                                 category,
                                 contact
                             )

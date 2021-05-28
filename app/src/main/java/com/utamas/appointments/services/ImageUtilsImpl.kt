@@ -49,9 +49,12 @@ class ImageUtilsImpl @Inject constructor() : ImageUtils {
         return Single.fromCallable { addBorderSync(bmp, borderSize, color) }
     }
 
+    override fun ensureNotTooBig(bitmap: Bitmap, maxwidth: Int, maxheight: Int): Single<Bitmap>{
+        return Single.fromCallable{ensureNotTooBigSync(bitmap,maxwidth,maxheight)}
+    }
     //endregion
     //sync methods
-    private fun ensureNotTooBig(bitmap: Bitmap, maxwidth: Int, maxheight: Int): Bitmap {
+    private fun ensureNotTooBigSync(bitmap: Bitmap, maxwidth: Int, maxheight: Int): Bitmap {
         val ratioToMaxWidth = bitmap.width.toDouble() / maxwidth
         val ratioToMaxHeight = bitmap.height.toDouble() / maxheight
         if (ratioToMaxHeight <= 1 && ratioToMaxWidth <= 1) {

@@ -35,4 +35,5 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     fun runOnMainThread(runnable:()->Unit){
         mainThreadHandler.post(runnable)
     }
+
 }

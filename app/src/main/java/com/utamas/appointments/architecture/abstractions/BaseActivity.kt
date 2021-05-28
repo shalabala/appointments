@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -89,9 +90,9 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
     }
 
     protected fun showMessageDialog(
-        title: String?,
-        message: String?,
-        button: String? /*Drawable icon*/
+        title: String,
+        message: String,
+        button: String /*Drawable icon*/
     ) {
         val alertDialog1 =
             AlertDialog.Builder(
@@ -103,6 +104,19 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
             DialogInterface.BUTTON_NEUTRAL, button
         ) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
         alertDialog1.show()
+    }
+
+    protected fun showOkCancelDialog(title: Int, message: Int, okButton: Int, cancelButton: Int,onOk:()->Unit,onCancel:()->Unit){
+        val dialog =
+            AlertDialog.Builder(
+                this
+            )
+        dialog.setTitle(title)
+        dialog.setMessage(message)
+        dialog.setPositiveButton(okButton, { dialog, which -> onOk();dialog.dismiss() })
+        dialog.setNegativeButton(cancelButton, { dialog, which -> onCancel();dialog.cancel() })
+
+        dialog.show()
     }
 
     protected fun showMessageDialog(
@@ -117,6 +131,17 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         message = resources.getString(messageR)
         button = resources.getString(buttonR)
         showMessageDialog(title, message, button)
+    }
+
+    protected fun showLongToast(message:Int){
+        showToast(message,Toast.LENGTH_LONG)
+    }
+    protected fun showShortToast(message:Int){
+        showToast(message,Toast.LENGTH_SHORT)
+
+    }
+    protected fun showToast(message: Int, length: Int){
+        Toast.makeText(this,getString(message),length).show()
     }
 
     @Deprecated("Use rx instead")
@@ -158,7 +183,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         throw NotAnnotatedException(
                 String.format(
                     errorTemplate,
-                    DeclareXmlLayout::class.java.getName()
+                    DeclareViewModel::class.java.getName()
                 )
                 )
     }

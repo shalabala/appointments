@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.utamas.appointments.activity.LogInActivity">
+
+    <item
+        android:id="@+id/edit"
+        android:title="@string/edit"
+        android:icon="@drawable/outline_edit_24"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/delete"
+        android:title="@string/delete"
+        android:icon="@drawable/outline_delete_24"
+        app:showAsAction="always"
+        />
+</menu>

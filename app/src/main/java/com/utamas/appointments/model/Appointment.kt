@@ -1,7 +1,9 @@
 package com.utamas.appointments.model
 
-import android.net.wifi.rtt.CivicLocationKeys
+import com.utamas.appointments.toLocalDateTime
+import com.utamas.appointments.toTimeStamp
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 
 
@@ -9,12 +11,12 @@ data class Appointment(
     val id: String, //PK
     val href: String,
     val category: String,
-    val creationDateStr: String,
+    val creationDateDate: Date,
     val description: String,
     val externalId: String, //userId
-    val lastUpdateStr: String,
+    val lastUpdateDate: Date,
     val status: AppointmentStatus,
-    val validForStr: String,
+    val validForTimeStamp: Date,
     val attachments: List<String>, //[0]=image
     val calendarEventRef: String?,
     val notes: List<String>,
@@ -27,12 +29,12 @@ data class Appointment(
                 id ="",
         href = "",
         category = "",
-        creationDateStr = LocalDateTime.MIN.toString(),
+        creationDateDate = LocalDateTime.MIN.toTimeStamp(),
         description ="",
         externalId ="",
-        lastUpdateStr = LocalDateTime.now().toString(),
+        lastUpdateDate = LocalDateTime.now().toTimeStamp(),
         status =AppointmentStatus.INITIALIZED,
-        validForStr = LocalDateTime.MAX.toString(),
+        validForTimeStamp = LocalDateTime.MAX.toTimeStamp(),
         attachments = emptyList(),
         calendarEventRef ="",
         notes = emptyList(),
@@ -44,10 +46,10 @@ data class Appointment(
 
 }
 val Appointment.validFor: LocalDateTime
-get() = LocalDateTime.parse(this.validForStr)
+get() = this.validForTimeStamp.toLocalDateTime()
 
 val Appointment.lastUpdate: LocalDateTime
-get() = LocalDateTime.parse(this.lastUpdateStr)
+get() = this.lastUpdateDate.toLocalDateTime()
 
 val Appointment.creationDate: LocalDateTime
-get()= LocalDateTime.parse(this.creationDateStr)
+get()= this.creationDateDate.toLocalDateTime()

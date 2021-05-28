@@ -13,4 +13,5 @@ interface AppointmentService{
 
     fun delete(appointment: Appointment): Completable
 
+    fun getForId(id: String): Single<Appointment>
 }

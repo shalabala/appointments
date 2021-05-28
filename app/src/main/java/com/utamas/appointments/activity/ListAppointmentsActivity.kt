@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.utamas.appointments.APPOINTMENT_ITEM
 import com.utamas.appointments.R
 import com.utamas.appointments.activity.adapter.AppointmentListItemAdapter
 import com.utamas.appointments.architecture.abstractions.BaseActivity
@@ -16,6 +17,8 @@ import com.utamas.appointments.architecture.abstractions.ImageUtils
 import com.utamas.appointments.architecture.abstractions.UserService
 import com.utamas.appointments.architecture.annotations.DeclareViewModel
 import com.utamas.appointments.architecture.annotations.DeclareXmlLayout
+import com.utamas.appointments.viewmodel.AppointmentDisplayItem
+import com.utamas.appointments.viewmodel.EditAppointmentViewModel
 import com.utamas.appointments.viewmodel.ListAppointmentsViewModel
 import javax.inject.Inject
 
@@ -45,6 +48,9 @@ class ListAppointmentsActivity : BaseActivity<ListAppointmentsViewModel>(),
 
     override fun onResume() {
         super.onResume()
+    }
+    override fun onRestart() {
+        super.onRestart()
         reloadAdapterItems()
     }
     private fun reloadAdapterItems(){
@@ -63,8 +69,18 @@ class ListAppointmentsActivity : BaseActivity<ListAppointmentsViewModel>(),
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = AppointmentListItemAdapter(imageUtils)
+        adapter.onItemClickListener={view,viewholder->
+            if(viewholder.item!=null) {
+                navigateToViewAppointment(viewholder.item!!)
+            }}
         recyclerView.adapter = adapter
 
+    }
+
+    private fun navigateToViewAppointment(item: AppointmentDisplayItem) {
+        val intent=Intent(this,ViewAppointmentActivity::class.java)
+        intent.putExtra(APPOINTMENT_ITEM,item.appointment.id)
+        startActivity(intent)
     }
 
     private fun setUpToolbar(t: Toolbar) {
@@ -74,6 +90,11 @@ class ListAppointmentsActivity : BaseActivity<ListAppointmentsViewModel>(),
         t.menu.findItem(R.id.logout).setOnMenuItemClickListener {
             userService.signOut()
             finish()
+            true
+        }
+        t.menu.findItem(R.id.overdue).setOnMenuItemClickListener {
+            it.isChecked=!it.isChecked
+            this.adapter.setShowOverdue(it.isChecked)
             true
         }
         searchView.setOnQueryTextListener(this)

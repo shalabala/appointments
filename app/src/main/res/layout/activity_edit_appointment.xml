@@ -26,11 +26,11 @@
 />
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:context=".activity.ViewAppointmentActivity">
 
                 <androidx.constraintlayout.widget.Guideline
@@ -43,10 +43,10 @@
 
                 <TextView
                     android:id="@+id/imageTextView"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="@dimen/picture_width_height"
+                    android:layout_height="@dimen/picture_width_height"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:background="@{VM.image ?? @drawable/baseline_image_24}"
+                    app:backgroundDrawableOrBitmap="@{VM.image ?? @drawable/baseline_image_24}"
                     android:fontFamily="sans-serif-light"
                     android:gravity="bottom|center"
                     android:onClick="getImage"
@@ -76,8 +76,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={VM.description}"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:text="@={VM.description}" />
 
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -99,8 +99,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={VM.category}"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:text="@={VM.category}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,9 +120,9 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={VM.place}"
+                        android:maxLines="1"
 
-                        android:maxLines="1" />
+                        android:text="@={VM.place}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -143,9 +143,9 @@
                         android:id="@+id/dateTextInputEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{VM.validForDate}"
+                        android:maxLines="1"
 
-                        android:maxLines="1" />
+                        android:text="@{VM.validForDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,8 +166,8 @@
                         android:id="@+id/timeTextInputEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={VM.validForTime}"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:text="@={VM.validForTime}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -176,9 +176,10 @@
                     android:id="@+id/chipGroupNotes"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_small"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline11"
+                    android:layout_marginHorizontal="@dimen/input_field_left_right"
+                    android:layout_marginVertical="@dimen/input_field_top_bottom"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dateTextInput">
 
@@ -197,16 +198,15 @@
                         app:chipIcon="@drawable/outline_add_black_18" />
                 </com.google.android.material.chip.ChipGroup>
 
-
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupPerson"
+                    android:id="@+id/contactsChipGroup"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginHorizontal="@dimen/input_field_left_right"
+                    android:layout_marginVertical="@dimen/input_field_top_bottom"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/guideline11"
-                    app:layout_constraintTop_toBottomOf="@+id/timeTextInput">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNotes">
 
                     <com.google.android.material.chip.Chip
                         android:layout_width="wrap_content"

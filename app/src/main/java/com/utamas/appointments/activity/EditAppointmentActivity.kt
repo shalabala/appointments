@@ -7,21 +7,18 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.databinding.ObservableArrayList
-import androidx.databinding.ObservableList
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
+import com.utamas.appointments.APPOINTMENT_ITEM
 import com.utamas.appointments.R
 import com.utamas.appointments.activity.dialog.ImageDialog
 import com.utamas.appointments.activity.dialog.NoteDialog
@@ -30,6 +27,7 @@ import com.utamas.appointments.architecture.abstractions.BaseActivity
 import com.utamas.appointments.architecture.abstractions.ImageUtils
 import com.utamas.appointments.architecture.annotations.DeclareViewModel
 import com.utamas.appointments.architecture.annotations.DeclareXmlLayout
+import com.utamas.appointments.architecture.bining.ChipGroupListObserver
 import com.utamas.appointments.viewmodel.EditAppointmentViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -73,15 +71,22 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
 
     //region inherited
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setUpToolbar(findViewById(R.id.toolbar2))
+
+        val id=intent.getStringExtra(APPOINTMENT_ITEM)
+        if(id!=null){
+            viewModel.setAppointment(id,{},{
+               showLongToast(R.string.data_loading_error)
+            },{showLongToast(R.string.image_conversion_error)})
+        }
         appointmentApplication.appComponent.inject(this)
-        personChipGroup = findViewById(R.id.chipGroupPerson)
+        personChipGroup = findViewById(R.id.contactsChipGroup)
         notesChipGroup = findViewById(R.id.chipGroupNotes)
         dateTextField = findViewById(R.id.dateTextInputEditText)
         timeTextField = findViewById(R.id.timeTextInputEditText)
         imageTextView = findViewById(R.id.imageTextView)
-
 
         performManualBindings()
     }
@@ -118,10 +123,11 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
     //endregion
 
     //region toolbaar
-    fun setUpToolbar(t: Toolbar) {
+    private fun setUpToolbar(t: Toolbar) {
 
         t.inflateMenu(R.menu.menu_on_edit)
         t.menu.findItem(R.id.save).setOnMenuItemClickListener { save() }
+
         t.title = if (edit) resources.getString(R.string.edit) else resources.getString(R.string.new_appointment)
         t.setNavigationIcon(R.drawable.outline_arrow_back_24)
         t.setNavigationOnClickListener { finish() }
@@ -140,16 +146,18 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
     //endregion
 
     //region data binding
-    private fun performManualBindings() {
-        viewModel.apply {
-            people.addOnListChangedCallback(
-                CustomListObserver(
-                    viewModel.people,
+    private fun  performManualBindings() {
+      viewModel.apply {
+            contacts.addOnListChangedCallback(
+                ChipGroupListObserver(
+                    this@EditAppointmentActivity,
+                    viewModel.contacts,
                     personChipGroup,
-                    { it.first })
+                    { it.name })
             )
             notes.addOnListChangedCallback(
-                CustomListObserver(
+                ChipGroupListObserver(
+                    this@EditAppointmentActivity,
                     viewModel.notes,
                     notesChipGroup
                 )
@@ -168,90 +176,18 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
     }
 
 
-    inner class CustomListObserver<T>(
-        private val observableData: ObservableArrayList<T>,
-        private val cGroup: ChipGroup,
-        private val converter: (T) -> String = { it.toString() }
-    ) : ObservableList.OnListChangedCallback<ObservableArrayList<T>>() {
-        val listOfChips = mutableListOf<Chip>()
-
-
-        init {
-            onItemRangeInserted(observableData, 0, observableData.size)
-        }
-
-        override fun onChanged(sender: ObservableArrayList<T>?) {
-        }
-
-        override fun onItemRangeRemoved(
-            sender: ObservableArrayList<T>?,
-            positionStart: Int,
-            itemCount: Int
-        ) {
-            for (i in positionStart + itemCount - 1 downTo positionStart) {
-                cGroup.removeView(listOfChips[i])
-                listOfChips.removeAt(i)
-
-            }
-        }
-
-        override fun onItemRangeMoved(
-            sender: ObservableArrayList<T>?,
-            fromPosition: Int,
-            toPosition: Int,
-            itemCount: Int
-        ) {
-            throw AssertionError("this should not happen")
-        }
-
-        override fun onItemRangeInserted(
-            sender: ObservableArrayList<T>?,
-            positionStart: Int,
-            itemCount: Int
-        ) {
-            if (sender == null) return
-            for (i in positionStart until positionStart + itemCount) {
-                val data = sender[i]
-                val chip = createChip(converter(data))
-
-                chip.setOnCloseIconClickListener {
-                    observableData.remove(data)
-                }
-                cGroup.addView(chip)
-                if (i == listOfChips.size) {
-                    listOfChips.add(chip)
-                } else throw Error("this should never happen, only end of list insertion is allowed")
-            }
-
-        }
-
-        override fun onItemRangeChanged(
-            sender: ObservableArrayList<T>?,
-            positionStart: Int,
-            itemCount: Int
-        ) {
-        }
-
-    }
 
 //endregion
 
     //region chips
     fun addPerson(v: View) {
-        PersonDialog(viewModel.people).show(supportFragmentManager, "personTag")
+        PersonDialog(viewModel.contacts).show(supportFragmentManager, "personTag")
     }
 
     fun addNote(v: View) {
         NoteDialog(viewModel.notes).show(supportFragmentManager, "noteTag")
     }
 
-
-    private fun createChip(str: String): Chip {
-        val chip = Chip(this)
-        chip.text = str
-        chip.isCloseIconVisible = true
-        return chip
-    }
 //endregion
 
     //region image selection
@@ -338,7 +274,7 @@ class EditAppointmentActivity : BaseActivity<EditAppointmentViewModel>() {
         imageUtils.processIntentImage(imageFile).subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { viewModel.bitmap = it },
+                { viewModel.image.set( it) },
                 {
                     Toast.makeText(
                         this,

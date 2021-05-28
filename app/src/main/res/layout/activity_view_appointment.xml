@@ -2,15 +2,200 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="VM"
-            type="com.utamas.appointments.viewmodel.ViewAppointmentViewModel"/>
+
+        <variable
+            name="VM"
+            type="com.utamas.appointments.viewmodel.ViewAppointmentViewModel" />
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.EditAppointmentActivity">
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:title="@string/appointment_details" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context=".activity.EditAppointmentActivity">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="@dimen/picture_width_height"
+
+                    android:layout_height="@dimen/picture_width_height"
+                    android:imageBitmap="@{VM.image}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/descriptionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:layout_marginVertical="@dimen/text_field_top_bottom"
+                    android:text="@string/description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+                <TextView
+                    android:id="@+id/descriptionValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:text="@{VM.description}"
+                    app:layout_constraintStart_toStartOf="@+id/guideline12"
+                    app:layout_constraintTop_toBottomOf="@+id/descriptionLabel" />
+
+                <TextView
+                    android:id="@+id/categoryLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:layout_marginVertical="@dimen/text_field_top_bottom"
+                    android:text="@string/category"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/descriptionValue" />
+
+                <TextView
+                    android:id="@+id/categoryValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:text="@{VM.Category}"
+                    app:layout_constraintStart_toStartOf="@+id/guideline12"
+                    app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
+
+                <TextView
+                    android:id="@+id/placeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:layout_marginVertical="@dimen/text_field_top_bottom"
+                    android:text="@string/place"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/categoryValue" />
+
+                <TextView
+                    android:id="@+id/placeValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:text="@{VM.place}"
+                    app:layout_constraintStart_toStartOf="@+id/guideline12"
+                    app:layout_constraintTop_toBottomOf="@+id/placeLabel" />
+
+                <TextView
+                    android:id="@+id/dateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:layout_marginVertical="@dimen/text_field_top_bottom"
+                    android:text="@string/date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/placeValue" />
+
+                <TextView
+                    android:id="@+id/dateValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:text="@{VM.date}"
+                    app:layout_constraintStart_toStartOf="@+id/guideline12"
+                    app:layout_constraintTop_toBottomOf="@+id/dateLabel" />
+
+                <TextView
+                    android:id="@+id/statusLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:layout_marginVertical="@dimen/text_field_top_bottom"
+                    android:text="@string/status"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dateValue" />
+
+                <TextView
+                    android:id="@+id/statusValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:text="@{VM.status}"
+                    app:layout_constraintStart_toStartOf="@+id/guideline12"
+                    app:layout_constraintTop_toBottomOf="@+id/statusLabel" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.1" />
+
+                <TextView
+                    android:id="@+id/notesLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:layout_marginVertical="@dimen/text_field_top_bottom"
+                    android:text="@string/notes"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/statusValue" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/notesChipGroup"
+                    android:layout_width="0dp"
+                    app:chipItems="@{VM.notes}"
+
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@+id/guideline12"
+                    app:layout_constraintTop_toBottomOf="@+id/notesLabel" >
+                    <!--<com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Placeholder chip"/>-->
+                </com.google.android.material.chip.ChipGroup>
+
+                <TextView
+                    android:id="@+id/peopleLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_field_left_right"
+                    android:layout_marginVertical="@dimen/text_field_top_bottom"
+                    android:text="@string/people"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/notesChipGroup" />
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/peopleChipGroup"
+                    android:layout_width="0dp"
+                    app:chipItems="@{VM.contacts}"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@+id/guideline12"
+                    app:layout_constraintTop_toBottomOf="@+id/peopleLabel" >
+                    <!--<com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Placeholder chip"/>-->
+                </com.google.android.material.chip.ChipGroup>
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </LinearLayout>
 </layout>

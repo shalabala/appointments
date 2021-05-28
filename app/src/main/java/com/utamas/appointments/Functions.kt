@@ -2,6 +2,9 @@ package com.utamas.appointments
 
 import android.content.Context
 import android.widget.EditText
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 fun isEmail(text: String): Boolean {
     return text.matches(Regex("\\w+@\\w+\\.\\w{2,4}"))
@@ -38,3 +41,9 @@ fun validatePasswordField(password: EditText, context: Context): Boolean{
     }
     return ret;
 }
+
+fun Date.toLocalDateTime()=this.toInstant()
+.atZone(ZoneId.systemDefault())
+.toLocalDateTime()
+
+fun LocalDateTime.toTimeStamp()=Date.from(this.atZone(ZoneId.systemDefault()).toInstant())

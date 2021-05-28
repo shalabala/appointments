@@ -9,4 +9,5 @@ interface ImageUtils{
     fun imageToBase64(bitmap: Bitmap): Single<String>
     fun base64ToImage(string: String): Single<Bitmap>
     fun addBorder(bmp: Bitmap, borderSize: Int, color: Int): Single<Bitmap>
+    fun ensureNotTooBig(bitmap: Bitmap, maxwidth: Int, maxheight: Int): Single<Bitmap>
 }

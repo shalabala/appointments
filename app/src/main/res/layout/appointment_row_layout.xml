@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="item"
-            type="com.utamas.appointments.viewmodel.ListAppointmentsViewModel.AppointmentDisplayItem"/>
+            type="com.utamas.appointments.viewmodel.AppointmentDisplayItem"/>
 
     </data>
 <androidx.cardview.widget.CardView

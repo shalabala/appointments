@@ -8,8 +8,14 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
     <item
+        android:id="@+id/overdue"
+        android:title="@string/showoverdue"
+        android:checkable="true"
+        android:checked="true"
+        app:showAsAction="ifRoom"
+        />
+    <item
         android:id="@+id/logout"
         android:title="@string/log_out"
-        app:actionViewClass="android.widget.TextView"
         app:showAsAction="never" />
 </menu>

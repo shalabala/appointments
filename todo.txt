@@ -8,34 +8,40 @@ Edit:
     -Toolbar menü (back és save) (PIPA)
 
 Firebase:
-    -Firebase service bekötése
-    -ImageUtils base64 en/decoder
+    -Firebase service bekötése (PIPA)
+    -ImageUtils base64 en/decoder (PIPA)
 
 Details:
-    -Details oldal létrehozása
-    -Azon Vm bekötés
+    -Details oldal létrehozása(PIPA)
+    -Azon Vm bekötés(PIPA)
 
 List:
-    -Context menü létrehozása
-    -Törlés megvalósítása
-    -edit megvalósítása (Chippekre kulonosen figyelni)
+    -Context menü létrehozása (utoljára!)
+    -menure: checkbox hogy a lejártakat is-e? (PIPA)
+    -a lejartak piros keretet kapnak (PIPA)
+    -Törlés megvalósítása (PIPA)
+    -edit megvalósítása (Chippekre kulonosen figyelni) (PIPA)
 
 Egyéb:
-    -Reszponzivitás (Dőlt képernyő)
-    -Értesítések
-    -Lifecycle hookok
+   >> -Reszponzivitás (Dőlt képernyő)
+   >> -Értesítések
+   >> -Edit validációja
+   >> -Mi legyen a lejárt appointmentekkel?
+   >> -Lifecycle hookok(PIPA)
 
 Deploy:
-    -APK létrehozás pdf átnézése
-    -APK létrehozás
-    -átnézézés
-    -Beadás
+   >> -APK létrehozás pdf átnézése
+   >> -APK létrehozás
+   >> -átnézézés
+   >> -Beadás
 
 Határidő: Szerda 12:00
 
 
 HIBÁK, JAVÍTÁSOK
 
+editactivity manualbindings legyen binding adapter
+Memory leakek manual bindingoknál?
 editen date-t is VM ből bindinggal szerezze
 person és note dialog validációja
 logout gomb latszodjon
@@ -51,7 +57,8 @@ activity ikonok
 aprosagok
 lehessen google calendarba hozzadni, onnan ki is torlodjon
 room persistance anonym bejelentkezesnel
-kép persistance localstorage ban
-kép megszerzése kamerától
+kép persistance localstorage ban (PIPA)
+kép megszerzése kamerától(PIPA)
+kép törlése
 
 
