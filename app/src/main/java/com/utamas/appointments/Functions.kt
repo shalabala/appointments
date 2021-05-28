@@ -41,9 +41,3 @@ fun validatePasswordField(password: EditText, context: Context): Boolean{
     }
     return ret;
 }
-
-fun Date.toLocalDateTime()=this.toInstant()
-.atZone(ZoneId.systemDefault())
-.toLocalDateTime()
-
-fun LocalDateTime.toTimeStamp()=Date.from(this.atZone(ZoneId.systemDefault()).toInstant())

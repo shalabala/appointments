@@ -1,22 +1,18 @@
 package com.utamas.appointments.model
 
-import com.utamas.appointments.toLocalDateTime
-import com.utamas.appointments.toTimeStamp
 import java.time.LocalDateTime
-import java.time.ZoneId
-import java.util.*
 
 
 data class Appointment(
     val id: String, //PK
     val href: String,
     val category: String,
-    val creationDateDate: Date,
+    val creationDateStr: String,
     val description: String,
     val externalId: String, //userId
-    val lastUpdateDate: Date,
+    val lastUpdateStr: String,
     val status: AppointmentStatus,
-    val validForTimeStamp: Date,
+    val validForStr: String,
     val attachments: List<String>, //[0]=image
     val calendarEventRef: String?,
     val notes: List<String>,
@@ -29,12 +25,12 @@ data class Appointment(
                 id ="",
         href = "",
         category = "",
-        creationDateDate = LocalDateTime.MIN.toTimeStamp(),
+        creationDateStr = LocalDateTime.MIN.toString(),
         description ="",
         externalId ="",
-        lastUpdateDate = LocalDateTime.now().toTimeStamp(),
+        lastUpdateStr = LocalDateTime.now().toString(),
         status =AppointmentStatus.INITIALIZED,
-        validForTimeStamp = LocalDateTime.MAX.toTimeStamp(),
+        validForStr = LocalDateTime.MAX.toString(),
         attachments = emptyList(),
         calendarEventRef ="",
         notes = emptyList(),
@@ -46,10 +42,10 @@ data class Appointment(
 
 }
 val Appointment.validFor: LocalDateTime
-get() = this.validForTimeStamp.toLocalDateTime()
+get() = LocalDateTime.parse(this.validForStr)
 
 val Appointment.lastUpdate: LocalDateTime
-get() = this.lastUpdateDate.toLocalDateTime()
+get() = LocalDateTime.parse(this.lastUpdateStr)
 
 val Appointment.creationDate: LocalDateTime
-get()= this.creationDateDate.toLocalDateTime()
+get()= LocalDateTime.parse(this.creationDateStr)

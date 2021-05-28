@@ -13,7 +13,6 @@ import com.utamas.appointments.model.Appointment
 import com.utamas.appointments.model.AppointmentStatus
 import com.utamas.appointments.model.ContactMedium
 import com.utamas.appointments.model.validFor
-import com.utamas.appointments.toTimeStamp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -101,7 +100,7 @@ class EditAppointmentViewModel(application: Application) : BaseViewModel(applica
             return appointmentService.setOrUpdate(getAppointmentToSave(null)).subscribeOn(Schedulers.io())
         } else {
             return imageUtils.ensureNotTooBig(bitmap, MAX_WIDTTH_OF_IMAGE, MAX_HEIGHT_OF_IMAGE)
-                .flatMap { imageUtils.imageToBase64(bitmap)}
+                .flatMap { imageUtils.imageToBase64(it)}
                 .subscribeOn(Schedulers.computation())
                 .observeOn(Schedulers.io())
                 .flatMapCompletable { base64 ->
@@ -129,11 +128,11 @@ class EditAppointmentViewModel(application: Application) : BaseViewModel(applica
             description = description.get()!!,
             category = category.get()!!,
             relatedPlace = place.get()!!,
-            validForTimeStamp = validFor.toTimeStamp(),
+            validForStr = validFor.toString(),
             contactMedia = contacts,
             notes = notes,
             attachments = addImageToAttachments(base64),
-            lastUpdateDate = LocalDateTime.now().toTimeStamp()
+            lastUpdateStr = LocalDateTime.now().toString()
         )
     }
 
@@ -152,12 +151,12 @@ class EditAppointmentViewModel(application: Application) : BaseViewModel(applica
             id = UUID.randomUUID().toString(),
             href = "",
             category = category.get()!!,
-            creationDateDate = LocalDateTime.now().toTimeStamp(),
+            creationDateStr = LocalDateTime.now().toString(),
             description = description.get()!!,
             externalId = userService.currentUser?.uid!!,
-            lastUpdateDate = LocalDateTime.now().toTimeStamp(),
+            lastUpdateStr = LocalDateTime.now().toString(),
             status = AppointmentStatus.INITIALIZED,
-            validForTimeStamp = validFor.toTimeStamp(),
+            validForStr = validFor.toString(),
             attachments = if(base64.isNullOrEmpty()) emptyList() else listOf(base64),
             calendarEventRef = "",
             notes = notes,

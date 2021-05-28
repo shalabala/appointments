@@ -41,9 +41,10 @@ class ListAppointmentsActivity : BaseActivity<ListAppointmentsViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appointmentApplication.appComponent.inject(this)
-
         setUpToolbar(findViewById<Toolbar>(R.id.toolbar))
         setUpRecyclerView()
+        reloadAdapterItems()
+
     }
 
     override fun onResume() {
@@ -52,6 +53,7 @@ class ListAppointmentsActivity : BaseActivity<ListAppointmentsViewModel>(),
     override fun onRestart() {
         super.onRestart()
         reloadAdapterItems()
+
     }
     private fun reloadAdapterItems(){
         viewModel.loadAppointments({ adapter.clear();adapter.addAll(it) },
